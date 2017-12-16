@@ -1,7 +1,7 @@
 {
     "name": "prodigious/sonata-menu-bundle",
     "type": "symfony-bundle",
-    "description": "This bundle provides a Menu management ",
+    "description": "This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).",
     "keywords": ["menu management", "sonata admin menu bundle"],
     "homepage": "https://github.com/nan-guo/SonataMenuBundle",
     "license": "MIT",
