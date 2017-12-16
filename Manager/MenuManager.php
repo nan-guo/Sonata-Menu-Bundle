@@ -35,7 +35,6 @@ class MenuManager
      *
      * @param MenuRepository $menuRepository
      */
-    // public function __construct(EntityManager $em, MenuRepository $menuRepository, MenuitemRepository $menuItemRepository)
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
