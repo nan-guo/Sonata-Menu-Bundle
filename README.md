@@ -131,7 +131,7 @@ return  $this->render('menu/menu.html.twig', [
             {% for menuItem in items %}
     
             {% set url = menuItem.url %}
-            {% set attributes = "menu-itme" %}
+            {% set attributes = "menu-item" %}
             {% if menuItem.classAttribute %}
             {% set attributes = attributes ~ ' ' ~ menuItem.classAttribute %}
             {% endif %}
