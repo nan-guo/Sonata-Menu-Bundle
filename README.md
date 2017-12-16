@@ -8,6 +8,8 @@ This bundle provides menu management by sonata admin bundle (compatible with son
 
 # Screenshots
 
+![screenshot](https://github.com/nan-guo/Sonata-Menu-Bundle/blob/master/Resources/public/imgs/screenshot-1.png)
+
 ![screenshot](https://github.com/nan-guo/Sonata-Menu-Bundle/blob/master/Resources/public/imgs/screenshot-3.png)
 
 Check out [more screenshots](https://github.com/nan-guo/Sonata-Menu-Bundle/tree/master/Resources/public/imgs).
