@@ -7,7 +7,10 @@ This bundle provides menu management by sonata admin bundle (compatible with son
 - SonataPageBundle (Optional)
 
 # Screenshots
-Check out the [screenshot](https://github.com/nan-guo/Sonata-Menu-Bundle/tree/master/Resources/public/imgs).
+
+![screenshot](https://github.com/nan-guo/Sonata-Menu-Bundle/blob/master/Resources/public/imgs/screenshot-3.png)
+
+Check out [more screenshots](https://github.com/nan-guo/Sonata-Menu-Bundle/tree/master/Resources/public/imgs).
 
 # Installation
 
