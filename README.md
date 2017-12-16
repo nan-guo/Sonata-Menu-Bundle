@@ -102,7 +102,9 @@ return  $this->render('menu/menu.html.twig', [
 
 ```
 
-### Twig View
+#### And then, it's your showtime. For the frontend, you can output the results as you want. 
+
+#### For example :
 
 * menu.html.twig
 
