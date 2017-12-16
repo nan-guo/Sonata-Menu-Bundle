@@ -7,7 +7,7 @@ This bundle provides menu management by sonata admin bundle (compatible with son
 - SonataPageBundle (Optional)
 
 # Screenshots
-Check out the [screenshot](http://gitlab.dev-prodigious.com:9090/prodigious/SonataMenuBundle/tree/master/Resources/public/imgs).
+Check out the [screenshot](https://github.com/nan-guo/Sonata-Menu-Bundle/tree/master/Resources/public/imgs).
 
 # Installation
 
@@ -17,11 +17,8 @@ Check out the [screenshot](http://gitlab.dev-prodigious.com:9090/prodigious/Sona
 }
 "repositories" : [{
     "type" : "vcs",
-    "url" : "http://gitlab.dev-prodigious.com:9090/prodigious/SonataMenuBundle.git"
-}],
-"config": {
-    "secure-http":false
-},
+    "url" : "https://github.com/nan-guo/Sonata-Menu-Bundle.git"
+}]
 
 composer update
 ```
@@ -160,6 +157,6 @@ return  $this->render('menu/menu.html.twig', [
 ```
 
 # Additional info
-Author: Nan GUO
+Author: [Nan GUO](https://github.com/nan-guo/)
  
 Company : [Prodigious](http://www.prodigious.com/)
