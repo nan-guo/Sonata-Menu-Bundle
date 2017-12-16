@@ -1,0 +1,3 @@
+prodigious.sonata.menu.admin.menu.items:
+    path:     /{id}/items
+    defaults: { _controller: ProdigiousSonataMenuBundle:Menu:items, id: 0 }

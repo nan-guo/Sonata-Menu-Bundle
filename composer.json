@@ -1,0 +1,34 @@
+{
+    "name": "prodigious/sonata-menu-bundle",
+    "type": "symfony-bundle",
+    "description": "This bundle provides a Menu management ",
+    "keywords": ["menu management", "sonata admin menu bundle"],
+    "homepage": "https://github.com/nan-guo/SonataMenuBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nan GUO",
+            "email": "guonanhq@gmail.com",
+            "homepage": "https://github.com/nan-guo/"
+        }
+        {
+            "name": "Prodigious",
+            "homepage": "http://www.prodigious.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.9",
+        "symfony/framework-bundle": "^2.8 || ^3.0",
+        "doctrine/doctrine-bundle": "~1.3",
+        "sonata-project/admin-bundle": "^3.2",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.1"
+    },
+    "autoload": {
+        "psr-4": { "Prodigious\\Sonata\\MenuBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

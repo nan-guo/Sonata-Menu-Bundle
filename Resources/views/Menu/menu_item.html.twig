@@ -1,0 +1,34 @@
+{% if type == 'list' %}
+
+<ul class="list-group">
+
+{% for item in items %}
+    <li class="menu-item list-group-item{{ item.enabled == false ? ' disabled' : '' }}" data-id="{{ item.id }}">                
+        <div class="item-content row">
+        	<div class="col-md-8">
+            	<span>{{ item.name }}</span>
+            </div>
+            <div class="col-md-4">
+            	<div class="btn-group">
+					<button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	{% trans from "ProdigiousSonataMenuBundle" %}config.label_action{% endtrans %} <span class="caret"></span>
+				  	</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+				    	<li><a class="btn-menuitem" href="{{ path('admin_sonata_menu_menuitem_delete', {'id':item.id}) }}"><i class="fa fa-times" aria-hidden="true"></i>  <strong>{% trans from "ProdigiousSonataMenuBundle" %}config.label_delete{% endtrans %}</strong></a></li>
+				    	<li><a class="btn-menuitem" href="{{ path('admin_sonata_menu_menuitem_edit', {'id':item.id}) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <strong>{% trans from "ProdigiousSonataMenuBundle" %}config.label_modify{% endtrans %}</strong></a></li>
+				  	</ul>
+				</div>
+        	</div>
+        </div>
+    </li>
+{% endfor %}
+
+</ul>
+
+{% elseif type == 'tree' %}
+
+{% import 'ProdigiousSonataMenuBundle:Menu:menu_tree_macro.html.twig' as tree %}
+
+{{ tree.menu(items) }}
+
+{% endif %}

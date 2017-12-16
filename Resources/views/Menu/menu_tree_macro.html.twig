@@ -1,0 +1,32 @@
+{% macro menu(items) %}
+    
+    {% import _self as self %}
+
+    <ol class="items-list dd-list">
+
+        {% for item in items if item.enabled %}
+        <li class="menu-item dd-item" data-id="{{ item.id }}">                
+            <div class="item-handle dd-handle">Drag</div>
+            <div class="item-content dd-content">
+                <span title="{{ item.name }}">{{ item.name|slice(0, 70) }}{% if item.name|length > 70 %}...{% endif %}</span>
+                <div class="btn-group action-dropdown">
+                    <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% trans from "ProdigiousSonataMenuBundle" %}config.label_action{% endtrans %} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a class="btn-menuitem" href="{{ path('admin_sonata_menu_menuitem_delete', {'id':item.id}) }}"><i class="fa fa-times" aria-hidden="true"></i>  <strong>{% trans from "ProdigiousSonataMenuBundle" %}config.label_delete{% endtrans %}</strong></a></li>
+                        <li><a class="btn-menuitem" href="{{ path('admin_sonata_menu_menuitem_edit', {'id':item.id}) }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <strong>{% trans from "ProdigiousSonataMenuBundle" %}config.label_modify{% endtrans %}</strong></a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            {% if item.hasChild() %}
+                {{ self.menu(item.children) }}
+            {% endif %}
+
+        </li>
+        {% endfor %}
+        
+    </ol>
+
+{% endmacro %}
