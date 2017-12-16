@@ -12,15 +12,9 @@ Check out the [screenshot](https://github.com/nan-guo/Sonata-Menu-Bundle/tree/ma
 # Installation
 
 ```
-"require": {
-    "prodigious/sonata-menu-bundle": "dev-master"
-}
-"repositories" : [{
-    "type" : "vcs",
-    "url" : "https://github.com/nan-guo/Sonata-Menu-Bundle.git"
-}]
 
-composer update
+composer require prodigious/sonata-menu-bundle
+
 ```
 
 # Configuration
