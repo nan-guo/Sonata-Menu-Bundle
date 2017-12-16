@@ -33,7 +33,7 @@ class MenuManager
     /**
      * Constructor
      *
-     * @param MenuRepository $menuRepository
+     * @param EntityManager $em
      */
     public function __construct(EntityManager $em)
     {
