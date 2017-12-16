@@ -4,6 +4,7 @@ config.label_menu: Menu
 config.label_menus: Menus
 config.label_name: Nom
 config.label_add: Ajouter
+config.label_update: Mettre à jour
 config.label_add_item: Ajouter item
 config.label_modify: Modifier
 config.label_delete: Supprimer
