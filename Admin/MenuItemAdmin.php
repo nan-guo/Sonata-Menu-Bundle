@@ -173,12 +173,21 @@ class MenuItemAdmin extends AbstractAdmin
     {   
         $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
 
-        $listMapper->add('menu', null, array(), 'entity',
-            array(
-                'class'    => 'Application\Sonata\MenuBundle\Entity\Menu',
-                'property' => 'name',
-            )
-        );
+        if(version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "3.0", "<")){
+            $listMapper->add('menu', null, array(), 'entity',
+                array(
+                    'class'    => 'Application\Sonata\MenuBundle\Entity\Menu',
+                    'property' => 'name',
+                )
+            );
+        }else{
+            $listMapper->add('menu', null, array(), 'entity',
+                array(
+                    'class'    => 'Application\Sonata\MenuBundle\Entity\Menu',
+                    'choice_label' => 'name',
+                )
+            );
+        }
 
         $listMapper->add('_action', 'actions', array('label' => 'config.label_modify', 'translation_domain' => 'ProdigiousSonataMenuBundle', 'actions' => array('edit' => array(), 'delete' => array())));
     }
