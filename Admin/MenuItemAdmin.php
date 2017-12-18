@@ -97,13 +97,14 @@ class MenuItemAdmin extends AbstractAdmin
                 )
             ->end();
 
-        if(class_exists('Application\Sonata\PageBundle\Entity\Page')) {
+        if($this->getConfigurationPool()->getContainer()->hasParameter('sonata.page.page.class')){
+            $pageClass = $this->getConfigurationPool()->getContainer()->getParameter('sonata.page.page.class');
             
-            $em = $this->modelManager->getEntityManager('Application\Sonata\PageBundle\Entity\Page');
+            $em = $this->modelManager->getEntityManager($pageClass);
             $builder = $em->createQueryBuilder('p');
 
             $query = $builder->select('p.name, p.url')
-                       ->from('ApplicationSonataPageBundle:Page', 'p')
+                       ->from($pageClass, 'p')
                        ->getQuery();
 
             $pages = $query->getResult();
@@ -214,7 +215,7 @@ class MenuItemAdmin extends AbstractAdmin
 
     public function rewriteUrl($object)
     {
-        if(class_exists('Application\Sonata\PageBundle\Entity\Page')) {
+        if($this->getConfigurationPool()->getContainer()->hasParameter('sonata.page.page.class')){      
             $data = $this->getForm()->get('page')->getData();
             if(!empty($data)){
                 $object->setUrl($data);
