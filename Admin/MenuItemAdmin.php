@@ -14,7 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class MenuItemAdmin extends AbstractAdmin
 {
     protected $baseRoutePattern = 'sonata/menu/menu-item';
-
+    protected $parentAssociationMapping = 'menu';
+    
     /**
      * {@inheritdoc}
      */

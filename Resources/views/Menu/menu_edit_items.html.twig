@@ -37,7 +37,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a class="sonata-action-element" href="{{ path('admin_sonata_menu_menuitem_create') ~ '?menu=' ~ menu.id}}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {% trans from "ProdigiousSonataMenuBundle" %}config.label_add_item{% endtrans %}</a>
+					<a class="sonata-action-element" href="{{admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('create')}}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {% trans from "ProdigiousSonataMenuBundle" %}config.label_add_item{% endtrans %}</a>
 				</li>
 			</ul>
 		</div>
@@ -63,7 +63,7 @@
 					<div class="panel-heading">{{ menu.name }}</div>
 					<div class="panel-body">
 						<div id="nestable" class="menu-tree dd">
-							{% include 'ProdigiousSonataMenuBundle:Menu:menu_item.html.twig' with {'items': menuItemsEnabled, 'type': 'tree'} %}
+							{% include 'ProdigiousSonataMenuBundle:Menu:menu_item.html.twig' with {'items': menuItemsEnabled, 'type': 'tree', 'admin': admin} %}
 						</div>
 					</div>
 				</div>
@@ -74,7 +74,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">{% trans from "ProdigiousSonataMenuBundle" %}config.label_disabled{% endtrans %}</div>
 					<div class="panel-body">
-						{% include 'ProdigiousSonataMenuBundle:Menu:menu_item.html.twig' with {'items': menuItemsDisabled, 'type': 'list'} %}
+						{% include 'ProdigiousSonataMenuBundle:Menu:menu_item.html.twig' with {'items': menuItemsDisabled, 'type': 'list', 'admin': admin} %}
 					</div>
 				</div>
 			</div>

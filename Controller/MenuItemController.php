@@ -28,11 +28,11 @@ class MenuItemController extends Controller
             if(!empty($object) && $object instanceof MenuItem) {
                 $menu = $object->getMenu();
                
-                if($menu) {
-                    $url = $this->generateUrl('prodigious.sonata.menu.admin.menu.items', array('id' => $menu->getId()));
+                if($menu && $this->admin->isChild()) {
+                    $url = $this->admin->getParent()->generateObjectUrl('items', $menu, array('id' => $menu->getId()));
                 }
             }
-
+            
             $response->setTargetUrl($url);
         }
 

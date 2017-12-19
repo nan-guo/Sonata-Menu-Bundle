@@ -35,7 +35,7 @@ file that was distributed with this source code.
     {% if admin.id(object) is not null %}
     <div class="panel">
         <div class="panel-heading">
-            <a class="sonata-action-element" href="{{ path('prodigious.sonata.menu.admin.menu.items', { 'id' : object.id }) }}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {% trans from "ProdigiousSonataMenuBundle" %}config.label_menu_items{% endtrans %}</a>
+            <a class="sonata-action-element" href="{{ path('admin_sonata_menu_menu_items', { 'id' : object.id }) }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>{% trans from "ProdigiousSonataMenuBundle" %}config.label_menu_items{% endtrans %}</a>
         </div>
     </div>
     {% endif %}

@@ -47,7 +47,7 @@ class MenuController extends Controller
                     $session->getFlashBag()->add('notice', $translator->trans('config.label_error', array(), 'ProdigiousSonataMenuBundle'));
                 }
 
-                return new RedirectResponse($this->generateUrl('prodigious.sonata.menu.admin.menu.items', array('id' => $menuId)));
+                return new RedirectResponse($this->generateUrl('prodigious_sonata_menu.admin.menu.items', array('id' => $menuId)));                
 
             }
 
