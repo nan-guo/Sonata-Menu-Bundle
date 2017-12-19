@@ -147,6 +147,11 @@ return  $this->render('menu/menu.html.twig', [
 {% endmacro %}
 ```
 
+# Changelog
+### Version 2.0.4
+- Fix Symfony 3 compability bugs
+- Remove custom routing config
+
 # Additional info
 Author: [Nan GUO](https://github.com/nan-guo/)
  
