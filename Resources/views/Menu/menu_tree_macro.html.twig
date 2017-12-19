@@ -21,7 +21,7 @@
         </div>
         
         {% if item.hasChild() %}
-            {{ self.menu(item.children) }}
+            {{ self.menu(item.children, admin) }}
         {% endif %}
 
     </li>
