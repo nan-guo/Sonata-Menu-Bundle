@@ -36,24 +36,6 @@ php bin/console doctrine:schema:update --force
 php bin/console assets:install
 ```
 
-### routing.yml
-
-Replace {admin_url} by your admin prefix
-
-```
-prodigious_sonata_menu:
-    resource: "@ProdigiousSonataMenuBundle/Resources/config/routing.yml"
-    prefix:   /{admin_url}/sonata/menu
-```
-
-Ex:
-
-```
-prodigious_sonata_menu:
-    resource: "@ProdigiousSonataMenuBundle/Resources/config/routing.yml"
-    prefix:   /admin/sonata/menu
-```
-
 ### config.yml or sonata.yml
 
 Add menu to your sonata admin menu list
