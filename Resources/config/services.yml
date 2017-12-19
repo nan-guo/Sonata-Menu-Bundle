@@ -1,10 +1,4 @@
-services:
-    prodigious_sonata_menu.menu_listener:
-        class: Prodigious\Sonata\MenuBundle\EventListener\MenuBuilderListener
-        arguments:
-            - "@request_stack"
-        tags:
-            - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+services:  
 
     prodigious_sonata_menu.factory:
         class: Prodigious\Sonata\MenuBundle\Factory\MenuFactor
@@ -31,10 +25,15 @@ services:
         class: Prodigious\Sonata\MenuBundle\Admin\MenuAdmin
         arguments: [~, Prodigious\Sonata\MenuBundle\Entity\Menu, ProdigiousSonataMenuBundle:Menu]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu }
-
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
+        calls:
+            - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]  
+            - [ addChild, ['@prodigious_sonata_menu.admin.menu_item']]
+            
     prodigious_sonata_menu.admin.menu_item:
         class: Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin
         arguments: [~, Prodigious\Sonata\MenuBundle\Entity\MenuItem, ProdigiousSonataMenuBundle:MenuItem]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Menu Item, group: Menu }
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: ProdigiousSonataMenuBundle  }
+        calls:
+            - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]

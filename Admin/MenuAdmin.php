@@ -46,7 +46,7 @@ class MenuAdmin extends AbstractAdmin
             'actions' => array(
                 'edit' => array(), 
                 'delete' => array(),
-                'items' => array('template' => 'ProdigiousSonataMenuBundle:CRUD:list__action_edit_items.html.twig')
+                'items' => array('template' => 'ProdigiousSonataMenuBundle:CRUD:list__action_edit_items.html.twig', 'route' => 'items')
             )
         ));
     }

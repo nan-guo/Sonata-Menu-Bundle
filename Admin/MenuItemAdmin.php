@@ -14,7 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class MenuItemAdmin extends AbstractAdmin
 {
     protected $baseRoutePattern = 'sonata/menu/menu-item';
-
+    protected $parentAssociationMapping = 'menu';
+    
     /**
      * {@inheritdoc}
      */
@@ -97,13 +98,14 @@ class MenuItemAdmin extends AbstractAdmin
                 )
             ->end();
 
-        if(class_exists('Application\Sonata\PageBundle\Entity\Page')) {
+        if($this->getConfigurationPool()->getContainer()->hasParameter('sonata.page.page.class')){
+            $pageClass = $this->getConfigurationPool()->getContainer()->getParameter('sonata.page.page.class');
             
-            $em = $this->modelManager->getEntityManager('Application\Sonata\PageBundle\Entity\Page');
+            $em = $this->modelManager->getEntityManager($pageClass);
             $builder = $em->createQueryBuilder('p');
 
             $query = $builder->select('p.name, p.url')
-                       ->from('ApplicationSonataPageBundle:Page', 'p')
+                       ->from($pageClass, 'p')
                        ->getQuery();
 
             $pages = $query->getResult();
@@ -172,12 +174,21 @@ class MenuItemAdmin extends AbstractAdmin
     {   
         $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
 
-        $listMapper->add('menu', null, array(), 'entity',
-            array(
-                'class'    => 'Application\Sonata\MenuBundle\Entity\Menu',
-                'property' => 'name',
-            )
-        );
+        if(version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "3.0", "<")){
+            $listMapper->add('menu', null, array(), 'entity',
+                array(
+                    'class'    => 'Application\Sonata\MenuBundle\Entity\Menu',
+                    'property' => 'name',
+                )
+            );
+        }else{
+            $listMapper->add('menu', null, array(), 'entity',
+                array(
+                    'class'    => 'Application\Sonata\MenuBundle\Entity\Menu',
+                    'choice_label' => 'name',
+                )
+            );
+        }
 
         $listMapper->add('_action', 'actions', array('label' => 'config.label_modify', 'translation_domain' => 'ProdigiousSonataMenuBundle', 'actions' => array('edit' => array(), 'delete' => array())));
     }
@@ -214,7 +225,7 @@ class MenuItemAdmin extends AbstractAdmin
 
     public function rewriteUrl($object)
     {
-        if(class_exists('Application\Sonata\PageBundle\Entity\Page')) {
+        if($this->getConfigurationPool()->getContainer()->hasParameter('sonata.page.page.class')){      
             $data = $this->getForm()->get('page')->getData();
             if(!empty($data)){
                 $object->setUrl($data);
