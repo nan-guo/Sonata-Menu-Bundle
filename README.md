@@ -148,9 +148,12 @@ return  $this->render('menu/menu.html.twig', [
 ```
 
 # Changelog
-### Version 2.0.4
+### 2.0.4
 - Fix Symfony 3 compability bugs
 - Remove custom routing config
+  
+### 2.0.5
+- Fix Menu Item Admin bug
 
 # Additional info
 Author: [Nan GUO](https://github.com/nan-guo/)
