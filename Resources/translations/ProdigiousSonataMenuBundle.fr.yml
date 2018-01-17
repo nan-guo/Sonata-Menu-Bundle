@@ -26,3 +26,4 @@ config.label_disabled: Désactivé
 config.label_action: Action
 config.label_saved: Bien enregistré
 config.label_error: Il y a une erreur
+config.label_id: ID

@@ -39,6 +39,7 @@ class MenuAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {   
+        $listMapper->add('id', null, array('label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
         $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
 
         $listMapper->add('_action', 'actions', array('label' => 'config.label_modify', 
