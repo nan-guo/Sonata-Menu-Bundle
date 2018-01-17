@@ -155,6 +155,9 @@ return  $this->render('menu/menu.html.twig', [
 ### 2.0.5
 - Fix Menu Item Admin bug
 
+### 2.0.6
+- Add column to Menu Admin
+
 # Additional info
 Author: [Nan GUO](https://github.com/nan-guo/)
  
