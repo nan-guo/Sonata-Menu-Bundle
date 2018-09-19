@@ -6,6 +6,7 @@ services:
     prodigious_sonata_menu.manager:
         class: Prodigious\Sonata\MenuBundle\Manager\MenuManager
         arguments: ["@doctrine.orm.entity_manager"]
+        public: true
 
     prodigious_sonata_menu.repo:
         class: Prodigious\Sonata\MenuBundle\Repository\MenuRepository
