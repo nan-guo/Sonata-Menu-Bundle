@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
 use Prodigious\Sonata\MenuBundle\Entity\MenuItemInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class MenuItemAdmin extends AbstractAdmin
 {
@@ -175,14 +176,14 @@ class MenuItemAdmin extends AbstractAdmin
         $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
 
         if(version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "3.0", "<")){
-            $listMapper->add('menu', null, array(), 'entity',
+            $listMapper->add('menu', null, array(), EntityType::class,
                 array(
                     'class'    => 'Prodigious\Sonata\MenuBundle\Entity\Menu',
                     'property' => 'name',
                 )
             );
         }else{
-            $listMapper->add('menu', null, array(), 'entity',
+            $listMapper->add('menu', null, array(), EntityType::class,
                 array(
                     'class'    => 'Prodigious\Sonata\MenuBundle\Entity\Menu',
                     'choice_label' => 'name',
@@ -199,7 +200,7 @@ class MenuItemAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper->add('name')
-            ->add('menu', null, array(), 'entity',
+            ->add('menu', null, array(), EntityType::class,
                 array(
                     'class'    => 'Prodigious\Sonata\MenuBundle\Entity\Menu',
                 )
@@ -224,7 +225,7 @@ class MenuItemAdmin extends AbstractAdmin
 
     public function rewriteUrl($object)
     {
-        if($this->getConfigurationPool()->getContainer()->hasParameter('sonata.page.page.class')){      
+        if($this->getConfigurationPool()->getContainer()->hasParameter('sonata.page.page.class')) {      
             $data = $this->getForm()->get('page')->getData();
             if(!empty($data)){
                 $object->setUrl($data);
