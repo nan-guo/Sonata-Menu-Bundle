@@ -9,7 +9,7 @@
 <div class="hidden-xs">
 <ol class="nav navbar-top-links breadcrumb">
 	<li>
-		<a href="{{ path('sonata_admin_dashboard') }}">{% trans %}config.label_dashboard{% endtrans %}</a>
+		<a href="{{ path('sonata_admin_dashboard') }}">{% trans from "ProdigiousSonataMenuBundle" %}config.label_dashboard{% endtrans %}</a>
 	</li>
 	<li class="active"><span>{% trans from "ProdigiousSonataMenuBundle" %}config.label_menu_items{% endtrans %}</span></li>
 </ol>
@@ -63,7 +63,7 @@
 					<div class="panel-heading">{{ menu.name }}</div>
 					<div class="panel-body">
 						<div id="nestable" class="menu-tree dd">
-							{% include 'ProdigiousSonataMenuBundle:Menu:menu_item.html.twig' with {'items': menuItemsEnabled, 'type': 'tree', 'admin': admin} %}
+							{% include '@ProdigiousSonataMenu/Menu/menu_item.html.twig' with {'items': menuItemsEnabled, 'type': 'tree', 'admin': admin} %}
 						</div>
 					</div>
 				</div>
@@ -74,7 +74,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">{% trans from "ProdigiousSonataMenuBundle" %}config.label_disabled{% endtrans %}</div>
 					<div class="panel-body">
-						{% include 'ProdigiousSonataMenuBundle:Menu:menu_item.html.twig' with {'items': menuItemsDisabled, 'type': 'list', 'admin': admin} %}
+						{% include '@ProdigiousSonataMenu/Menu/menu_item.html.twig' with {'items': menuItemsDisabled, 'type': 'list', 'admin': admin} %}
 					</div>
 				</div>
 			</div>

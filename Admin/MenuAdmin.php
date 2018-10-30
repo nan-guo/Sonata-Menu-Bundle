@@ -39,16 +39,16 @@ class MenuAdmin extends AbstractAdmin
      * {@inheritdoc}
      */
     protected function configureListFields(ListMapper $listMapper)
-    {   
+    {
         $listMapper->add('id', null, array('label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
         $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
 
-        $listMapper->add('_action', 'actions', array('label' => 'config.label_modify', 
+        $listMapper->add('_action', 'actions', array('label' => 'config.label_modify',
             'translation_domain' => 'ProdigiousSonataMenuBundle',
             'actions' => array(
-                'edit' => array(), 
+                'edit' => array(),
                 'delete' => array(),
-                'items' => array('template' => 'ProdigiousSonataMenuBundle:CRUD:list__action_edit_items.html.twig', 'route' => 'items')
+                'items' => array('template' => '@ProdigiousSonataMenu/CRUD/list__action_edit_items.html.twig', 'route' => 'items')
             )
         ));
     }
@@ -74,7 +74,7 @@ class MenuAdmin extends AbstractAdmin
      */
     public function configure()
     {
-        $this->setTemplate('edit', 'ProdigiousSonataMenuBundle:CRUD:edit.html.twig');
+        $this->setTemplate('edit', '@ProdigiousSonataMenu/CRUD/edit.html.twig');
     }
 
     /**

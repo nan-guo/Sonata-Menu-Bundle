@@ -27,12 +27,12 @@ class MenuController extends Controller
         $menuManager = $this->container->get('prodigious_sonata_menu.manager');
 
         if (null !== $request->get('btn_update') && $request->getMethod() == 'POST') {
-            
+
             $menuId = $request->get('menu', null);
             $items = $request->get('items', null);
 
             if(!empty($items) && !empty(intval($menuId))) {
-                
+
                 $items = json_decode($items);
 
                 $update = $menuManager->updateMenuTree($menuId, $items);
@@ -47,7 +47,7 @@ class MenuController extends Controller
                     $session->getFlashBag()->add('notice', $translator->trans('config.label_error', array(), 'ProdigiousSonataMenuBundle'));
                 }
 
-                return new RedirectResponse($this->generateUrl('admin_sonata_menu_menu_items', array('id' => $menuId)));                
+                return new RedirectResponse($this->generateUrl('admin_sonata_menu_menu_items', array('id' => $menuId)));
 
             }
 
@@ -59,7 +59,7 @@ class MenuController extends Controller
 
         $menus = $menuManager->findAll();
 
-    	return $this->render('ProdigiousSonataMenuBundle:Menu:menu_edit_items.html.twig', array(
+    	return $this->render('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
             'menus' => $menus,
     		'menu' => $object,
             'menuItemsEnabled' => $menuItemsEnabled,

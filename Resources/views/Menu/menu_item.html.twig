@@ -3,7 +3,7 @@
 <ul class="list-group">
 
 {% for item in items %}
-    <li class="menu-item list-group-item{{ item.enabled == false ? ' disabled' : '' }}" data-id="{{ item.id }}">                
+    <li class="menu-item list-group-item{{ item.enabled == false ? ' disabled' : '' }}" data-id="{{ item.id }}">
         <div class="item-content row">
         	<div class="col-md-8">
             	<span>{{ item.name }}</span>
@@ -27,7 +27,7 @@
 
 {% elseif type == 'tree' %}
 
-{% import 'ProdigiousSonataMenuBundle:Menu:menu_tree_macro.html.twig' as tree %}
+{% import '@ProdigiousSonataMenu/Menu/menu_tree_macro.html.twig' as tree %}
 
 {{ tree.menu(items, admin) }}
 
