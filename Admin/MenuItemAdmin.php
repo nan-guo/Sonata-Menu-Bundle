@@ -2,14 +2,14 @@
 
 namespace Prodigious\Sonata\MenuBundle\Admin;
 
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItemInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +18,22 @@ class MenuItemAdmin extends AbstractAdmin
 {
     protected $baseRoutePattern = 'sonata/menu/menu-item';
     protected $parentAssociationMapping = 'menu';
+
+    /**
+     * @var string
+     */
+    protected $menuClass;
+
+    public function __construct(string $code, string $class, string $baseControllerName, string $menuClass)
+    {
+        parent::__construct(
+            $code,
+            $class,
+            $baseControllerName
+        );
+
+        $this->menuClass = $menuClass;
+    }
 
     /**
      * {@inheritdoc}
@@ -180,14 +196,14 @@ class MenuItemAdmin extends AbstractAdmin
         if(version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "3.0", "<")){
             $listMapper->add('menu', null, array(), EntityType::class,
                 array(
-                    'class'    => 'Prodigious\Sonata\MenuBundle\Entity\Menu',
+                    'class'    => $this->menuClass,
                     'property' => 'name',
                 )
             );
         }else{
             $listMapper->add('menu', null, array(), EntityType::class,
                 array(
-                    'class'    => 'Prodigious\Sonata\MenuBundle\Entity\Menu',
+                    'class'    => $this->menuClass,
                     'choice_label' => 'name',
                 )
             );
@@ -204,7 +220,7 @@ class MenuItemAdmin extends AbstractAdmin
         $datagridMapper->add('name')
             ->add('menu', null, array(), EntityType::class,
                 array(
-                    'class'    => 'Prodigious\Sonata\MenuBundle\Entity\Menu',
+                    'class' => $this->menuClass,
                 )
             );
     }

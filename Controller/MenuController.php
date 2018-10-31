@@ -48,7 +48,13 @@ class MenuController extends Controller
                     )
                 );
 
-                return new RedirectResponse($this->generateUrl('admin_sonata_menu_menu_items', array('id' => $menuId)));
+                return new RedirectResponse($this->get('sonata.admin.route.default_generator')
+                    ->generateUrl(
+                        $this->get('prodigious_sonata_menu.admin.menu'),
+                        'items',
+                        ['id' => $menuId]
+                    )
+                );
             }
         }
 

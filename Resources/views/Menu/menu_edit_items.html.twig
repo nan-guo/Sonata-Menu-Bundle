@@ -29,7 +29,8 @@
 					<ul class="dropdown-menu">
 					{% for menu in menus %}
 					<li>
-						<a href="{{ path('admin_sonata_menu_menu_items', {'id':menu.id}) }}">{{ menu.name }}</a>
+						{#<a href="{{ path('sonata_menu_item', {'id':menu.id}) }}">{{ menu.name }}</a>#}
+						<a href="{{ admin.generateUrl('list', {'id':menu.id}) }}">{{ menu.name }}</a>
 					</li>
 					{% endfor %}
 					</ul>

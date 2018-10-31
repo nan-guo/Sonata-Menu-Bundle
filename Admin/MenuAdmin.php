@@ -7,9 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Prodigious\Sonata\MenuBundle\Entity\Menu;
 use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MenuAdmin extends AbstractAdmin

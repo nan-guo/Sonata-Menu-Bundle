@@ -57,7 +57,7 @@ class MenuManager
      */
     public function load($id)
     {
-        $menu = $this->menuRepository->findById($id);
+        $menu = $this->menuRepository->find($id);
 
         return $menu;
     }
