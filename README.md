@@ -36,7 +36,7 @@ php bin/console doctrine:schema:update --force
 php bin/console assets:install
 ```
 
-### config.yml or sonata.yml
+### sonata_admin.yml
 
 Add menu to your sonata admin menu list
 
@@ -59,6 +59,146 @@ sonata_admin:
                 icon:            '<i class="fa fa-magic"></i>'
                 items:
                     - prodigious_sonata_menu.admin.menu
+```
+
+You can also let it empty, menu will be added automatically
+
+### Create custom entities
+
+Edit the configuration
+
+* prodigious_sonata_menu.yaml
+
+```
+prodigious_sonata_menu:
+    entities:
+        menu: My\App\Entity\MyMenu
+        menu_item: My\App\Entity\MyMenuItem
+```
+
+Then create the related entity menu and menu item.
+You can add extra fields
+
+* Menu
+
+```
+use Prodigious\Sonata\MenuBundle\Model\MenuAbstract;
+// Annotations
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class MenuItem
+ *
+ * @ORM\Table
+ * @ORM\Entity(repositoryClass="App\Repository\Menu\MenuRepository")
+ */
+class Menu extends MenuAbstract
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * Class constructor
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+}
+```
+
+* MenuItem
+
+```
+use Prodigious\Sonata\MenuBundle\Model\MenuItemAbtract;
+// Annotations
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class MenuItem
+ *
+ * @ORM\Table
+ * @ORM\Entity(repositoryClass="App\Repository\MenuItemRepository")
+ */
+class MenuItem extends MenuItemAbtract
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $icon;
+
+    /**
+     * Class constructor
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+}
+```
+
+Remember to update admin classes by extending the original ones :
+
+```
+use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin as BaseAdmin;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+class MyMenuAdmin extends BaseAdmin
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        parent::configureFormFields($formMapper);
+        $formMapper
+            ->with('config.label_menu', [])
+                ->add('icon', TextType::class, [
+                        'label' => 'config.label_icon'
+                    ],
+                )
+            ->end()
+        ->end();
+    }
+}
 ```
 
 # Getting Started with Menu Manager
@@ -191,46 +331,11 @@ To handle bootstrap and font awsome bundle you should override the menuitem enti
 
 #### Override
 
-* Entities
-
-Tu use your custom entities you can edit the configuration
-```
-prodigious_sonata_menu:
-    entities:
-        menu: My\App\Entity\MyMenu
-        menu_item: My\App\Entity\MyMenuItem
-```
-
-Remember to update admin classes by extending the original ones :
-
-```
-use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin as BaseAdmin;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-
-class MyMenuAdmin extends BaseAdmin
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        parent::configureFormFields($formMapper);
-        $formMapper
-            ->with('config.label_menu', [])
-                ->add('icon', TextType::class, [
-                        'label' => 'config.label_icon'
-                    ],
-                )
-            ->end()
-        ->end();
-    }
-}
-```
-
 * Services
 
 You can override some service just by replacing the service alias.
-Exemple
+Exemple:
+
 ```
 parameters:
     prodigious_sonata_menu.twig.knp.class: My\Custom\MenuBuilder
