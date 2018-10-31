@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Prodigious\Sonata\MenuBundle\Entity\Menu;
-use Prodigious\Sonata\MenuBundle\Entity\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
 use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -31,14 +31,14 @@ class MenuAdmin extends AbstractAdmin
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
                     )
                 )
-            ->add('alias', TextType::class,
-                    array(
-                        'label' => 'config.label_alias'
-                    ),
-                    array(
-                        'translation_domain' => 'ProdigiousSonataMenuBundle'
+                ->add('alias', TextType::class,
+                        array(
+                            'label' => 'config.label_alias'
+                        ),
+                        array(
+                            'translation_domain' => 'ProdigiousSonataMenuBundle'
+                        )
                     )
-                )
             ->end()
         ->end();
     }

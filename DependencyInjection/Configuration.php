@@ -23,6 +23,14 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->booleanNode('knp_menu_integration')->defaultFalse()->end()
+                ->arrayNode('entities')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('menu')->defaultValue('Prodigious\Sonata\MenuBundle\Entity\Menu')->end()
+                            ->scalarNode('menu_item')->defaultValue('Prodigious\Sonata\MenuBundle\Entity\MenuItem')->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

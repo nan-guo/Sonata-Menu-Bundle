@@ -2,14 +2,15 @@
 
 namespace Prodigious\Sonata\MenuBundle\Controller;
 
+use Prodigious\Sonata\MenuBundle\Manager\MenuManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuController extends Controller
 {
-
 	/**
 	 * Manager menu items
 	 *
@@ -24,6 +25,7 @@ class MenuController extends Controller
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
+        /** @var MenuManager $menuManager */
         $menuManager = $this->container->get('prodigious_sonata_menu.manager');
 
         if (null !== $request->get('btn_update') && $request->getMethod() == 'POST') {
@@ -32,29 +34,25 @@ class MenuController extends Controller
             $items = $request->get('items', null);
 
             if(!empty($items) && !empty(intval($menuId))) {
-
                 $items = json_decode($items);
 
                 $update = $menuManager->updateMenuTree($menuId, $items);
-
-                $session = $request->getSession();
-
+                /** @var TranslatorInterface $translator */
                 $translator = $this->get('translator');
 
-                if($update) {
-                    $session->getFlashBag()->add('notice', $translator->trans('config.label_saved', array(), 'ProdigiousSonataMenuBundle'));
-                } else {
-                    $session->getFlashBag()->add('notice', $translator->trans('config.label_error', array(), 'ProdigiousSonataMenuBundle'));
-                }
+                $request->getSession()->getFlashBag()->add('notice',
+                    $translator->trans(
+                        $update ? 'config.label_saved' : 'config.label_error',
+                        array(),
+                        'ProdigiousSonataMenuBundle'
+                    )
+                );
 
                 return new RedirectResponse($this->generateUrl('admin_sonata_menu_menu_items', array('id' => $menuId)));
-
             }
-
         }
 
-        $menuItemsEnabled = $menuManager->getRootItems($object, true);
-
+        $menuItemsEnabled = $menuManager->getRootItems($object, MenuManager::STATUS_ENABLED);
         $menuItemsDisabled = $menuManager->getDisabledItems($object);
 
         $menus = $menuManager->findAll();

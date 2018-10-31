@@ -189,6 +189,53 @@ Use the menu alias to retrieve menu
 You have to create a knp menu template that can handle multi level trees.
 To handle bootstrap and font awsome bundle you should override the menuitem entity.
 
+#### Override
+
+* Entities
+
+Tu use your custom entities you can edit the configuration
+```
+prodigious_sonata_menu:
+    entities:
+        menu: My\App\Entity\MyMenu
+        menu_item: My\App\Entity\MyMenuItem
+```
+
+Remember to update admin classes by extending the original ones :
+
+```
+use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin as BaseAdmin;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+class MyMenuAdmin extends BaseAdmin
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        parent::configureFormFields($formMapper);
+        $formMapper
+            ->with('config.label_menu', [])
+                ->add('icon', TextType::class, [
+                        'label' => 'config.label_icon'
+                    ],
+                )
+            ->end()
+        ->end();
+    }
+}
+```
+
+* Services
+
+You can override some service just by replacing the service alias.
+Exemple
+```
+parameters:
+    prodigious_sonata_menu.twig.knp.class: My\Custom\MenuBuilder
+```
+
 # Changelog
 ### 2.0.4
 - Fix Symfony 3 compability bugs

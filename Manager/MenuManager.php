@@ -3,11 +3,10 @@
 namespace Prodigious\Sonata\MenuBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 use Prodigious\Sonata\MenuBundle\Repository\MenuitemRepository;
-use Prodigious\Sonata\MenuBundle\Entity\Menu;
-use Prodigious\Sonata\MenuBundle\Entity\MenuInterface;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
 
 /**
  * Menu manager
@@ -46,8 +45,8 @@ class MenuManager
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->menuRepository = $em->getRepository(Menu::class);
-        $this->menuItemRepository = $em->getRepository(MenuItem::class);
+        $this->menuRepository = $em->getRepository(MenuInterface::class);
+        $this->menuItemRepository = $em->getRepository(MenuItemInterface::class);
     }
 
     /**
@@ -91,7 +90,7 @@ class MenuManager
      *
      * @param Menu $menu
      */
-    public function save(Menu $menu)
+    public function save(MenuInterface $menu)
     {
         $this->menuRepository->save($menu);
     }
@@ -110,7 +109,7 @@ class MenuManager
      * @param Menu $menu
      * @return MenuItems[]
      */
-    public function getRootItems(Menu $menu, $status)
+    public function getRootItems(MenuInterface $menu, $status)
     {
         return $this->getMenuItems($menu, static::ITEM_ROOT, $status);
     }
@@ -121,7 +120,7 @@ class MenuManager
      * @param Menu $menu
      * @return MenuItems[]
      */
-    public function getEnabledItems(Menu $menu)
+    public function getEnabledItems(MenuInterface $menu)
     {
         return $this->getMenuItems($menu, static::ITEM_ALL, static::STATUS_ENABLED);
     }
@@ -132,7 +131,7 @@ class MenuManager
      * @param Menu $menu
      * @return MenuItems[]
      */
-    public function getDisabledItems(Menu $menu)
+    public function getDisabledItems(MenuInterface $menu)
     {
         return $this->getMenuItems($menu, static::ITEM_ALL, static::STATUS_DISABLED);
     }
@@ -142,11 +141,11 @@ class MenuManager
      *
      * @return MenuItem[]
      */
-    public function getMenuItems(Menu $menu, $root = self::ALL_ELEMENTS, $status = self::STATUS_ALL)
+    public function getMenuItems(MenuInterface $menu, $root = self::ALL_ELEMENTS, $status = self::STATUS_ALL)
     {
         $menuItems = $menu->getMenuItems()->toArray();
 
-        return array_filter($menuItems, function(MenuItem $menuItem) use ($root, $status) {
+        return array_filter($menuItems, function(MenuItemInterface $menuItem) use ($root, $status) {
             // Check root parameter
             if ($root === static::ITEM_ROOT && null !== $menuItem->getParent()
              || $root === static::ITEM_CHILD && null === $menuItem->getParent()
