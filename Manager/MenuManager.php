@@ -14,6 +14,14 @@ use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
  */
 class MenuManager
 {
+    const STATUS_ENABLED = true;
+    const STATUS_DISABLED = false;
+    const STATUS_ALL = null;
+
+    const ITEM_ROOT = true;
+    const ITEM_CHILD = false;
+    const ITEM_ALL = null;
+
     /**
      *
      * @var EntityManager
@@ -38,8 +46,8 @@ class MenuManager
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->menuRepository = $em->getRepository('ProdigiousSonataMenuBundle:Menu');
-        $this->menuItemRepository = $em->getRepository('ProdigiousSonataMenuBundle:MenuItem');
+        $this->menuRepository = $em->getRepository(Menu::class);
+        $this->menuItemRepository = $em->getRepository(MenuItem::class);
     }
 
     /**
@@ -104,7 +112,7 @@ class MenuManager
      */
     public function getRootItems(Menu $menu, $status)
     {
-        return $this->getMenuItems($menu, true, $status);
+        return $this->getMenuItems($menu, static::ITEM_ROOT, $status);
     }
 
     /**
@@ -115,7 +123,7 @@ class MenuManager
      */
     public function getEnabledItems(Menu $menu)
     {
-        return $this->getMenuItems($menu, false, true);
+        return $this->getMenuItems($menu, static::ITEM_ALL, static::STATUS_ENABLED);
     }
 
     /**
@@ -126,7 +134,7 @@ class MenuManager
      */
     public function getDisabledItems(Menu $menu)
     {
-        return $this->getMenuItems($menu, false, false);
+        return $this->getMenuItems($menu, static::ITEM_ALL, static::STATUS_DISABLED);
     }
 
     /**
@@ -134,57 +142,27 @@ class MenuManager
      *
      * @return MenuItem[]
      */
-    public function getMenuItems(Menu $menu, $root=false, $status="all")
+    public function getMenuItems(Menu $menu, $root = self::ALL_ELEMENTS, $status = self::STATUS_ALL)
     {
-        $items = array();
+        $menuItems = $menu->getMenuItems()->toArray();
 
-        $menuItems = $menu->getMenuItems();
-
-        if(count($menuItems) > 0) {
-            if($status == true) {
-                // Get active menu items
-                foreach ($menuItems as $menuItem) {
-                    if($menuItem->getEnabled()) {
-                        if($root) {
-                            if(is_null($menuItem->getParent())) {
-                                array_push($items, $menuItem);
-                            }
-                        } else {
-                            array_push($items, $menuItem);
-                        }
-                    }
-                }
-            } elseif($status == false) {
-
-                // Get disabled menu items
-                foreach ($menuItems as $menuItem) {
-                    if(!$menuItem->getEnabled()) {
-                        if($root) {
-                            if(is_null($menuItem->getParent())) {
-                                array_push($items, $menuItem);
-                            }
-                        } else {
-                            array_push($items, $menuItem);
-                        }
-                    }
-                }
-
-            } elseif($status == "all") {
-                foreach ($menuItems as $menuItem) {
-                    if($root) {
-                        if(is_null($menuItem->getParent())) {
-                            array_push($items, $menuItem);
-                        }
-                    } else {
-                        array_push($items, $menuItem);
-                    }
-                }
+        return array_filter($menuItems, function(MenuItem $menuItem) use ($root, $status) {
+            // Check root parameter
+            if ($root === static::ITEM_ROOT && null !== $menuItem->getParent()
+             || $root === static::ITEM_CHILD && null === $menuItem->getParent()
+            ) {
+                return;
             }
 
+            // Check status parameter
+            if ($status === static::STATUS_ENABLED && !$menuItem->getEnabled()
+             || $status === static::STATUS_DISABLED && $menuItem->getEnabled()
+            ) {
+                return;
+            }
 
-        }
-
-        return $items;
+            return $menuItem;
+        });
     }
 
     /**
@@ -206,12 +184,14 @@ class MenuManager
         if(!empty($items) && $menu) {
 
             foreach ($items as $pos => $item) {
+                /** @var MenuItem $menuItem */
                 $menuItem = $this->menuItemRepository->findOneBy(array('id' => $item->id, 'menu' => $menu));
 
                 if($menuItem) {
-                    $menuItem->setPosition($pos);
-
-                    $menuItem->setParent($parent);
+                    $menuItem
+                        ->setPosition($pos)
+                        ->setParent($parent)
+                    ;
 
                     $this->em->persist($menuItem);
                 }

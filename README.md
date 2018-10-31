@@ -72,9 +72,9 @@ $menuId = 1; // Example
 
 $menu = $mm->load($menuId);
 
-// $stauts = true (Get enabled menu items)
-// $stauts = false (Get disabled menu items)
-// getMenuItems($menu, $status="all")
+// $status = true (Get enabled menu items)
+// $status = false (Get disabled menu items)
+// getMenuItems($menu, $root=MenuManager::ITEM_CHILD, $status=MenuManager::STATUS_ALL)
 
 $menuItems = $mm->getMenuItems($menu, true);
 
@@ -146,6 +146,48 @@ return  $this->render('menu/menu.html.twig', [
 
 {% endmacro %}
 ```
+
+### KnpMenuBundle integration
+
+#### Install bundle
+
+* composer
+
+```
+composer require knplabs/knp-menu-bundle "^2.0"
+
+```
+
+#### Enable integration in config.yml or prodigious_sonata_menu.yaml
+
+* prodigious_sonata_menu.yaml
+
+```
+prodigious_sonata_menu:
+    knp_menu_integration: true
+
+```
+
+Clear cache
+
+```
+php bin/console cache:clear
+```
+
+#### Use in twig
+
+* my_template.html.twig
+
+Use the menu alias to retrieve menu
+
+```
+{{ knp_menu_render(sonata_menu('test')) }}
+```
+
+#### Limitations
+
+You have to create a knp menu template that can handle multi level trees.
+To handle bootstrap and font awsome bundle you should override the menuitem entity.
 
 # Changelog
 ### 2.0.4
