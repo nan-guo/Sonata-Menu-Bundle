@@ -109,7 +109,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -132,7 +132,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -155,7 +155,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -178,7 +178,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get classAttribute
      *
-     * @return string 
+     * @return string
      */
     public function getClassAttribute()
     {
@@ -201,7 +201,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get position
      *
-     * @return int 
+     * @return int
      */
     public function getPosition()
     {
@@ -224,7 +224,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get target
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTarget()
     {
@@ -257,7 +257,7 @@ class MenuItem implements MenuItemInterface
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -307,7 +307,7 @@ class MenuItem implements MenuItemInterface
     public function setParent($parent)
     {
         $this->parent = $parent;
-        
+
         if(!is_null($parent))
             $parent->addChild($this);
 
@@ -402,19 +402,25 @@ class MenuItem implements MenuItemInterface
         return !is_null($this->parent);
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getActiveChildren()
     {
-        $children = array();
+        $children = new ArrayCollection();
 
         foreach ($this->children as $child) {
             if($child->enabled) {
-                array_push($children, $child);
+                $children->add($child);
             }
         }
 
         return $children;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return isset($this->name) ? $this->name : "";

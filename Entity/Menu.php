@@ -5,12 +5,16 @@ namespace Prodigious\Sonata\MenuBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Menu
  *
- * @ORM\Table(name="sonata_menu")
+ * @ORM\Table(name="sonata_menu", indexes={
+ *     @ORM\Index(name="alias_idx", columns={"alias"})
+ * })
  * @ORM\Entity(repositoryClass="Prodigious\Sonata\MenuBundle\Repository\MenuRepository")
+ * @UniqueEntity("alias")
  */
 class Menu implements MenuInterface
 {
@@ -31,6 +35,15 @@ class Menu implements MenuInterface
     protected $name;
 
     /**
+     * Technical alias to fetch menu
+     *
+     * @var string
+     *
+     * @ORM\Column(name="alias", type="string", length=255, unique=true)
+     */
+    protected $alias;
+
+    /**
      * @ORM\OneToMany(targetEntity="Prodigious\Sonata\MenuBundle\Entity\MenuItem", mappedBy="menu", cascade={"persist"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
@@ -48,7 +61,7 @@ class Menu implements MenuInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -71,11 +84,31 @@ class Menu implements MenuInterface
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $alias
+     *
+     * @return $this
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**
@@ -124,7 +157,7 @@ class Menu implements MenuInterface
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getMenuItems()
-    {   
+    {
         return $this->menuItems;
     }
 

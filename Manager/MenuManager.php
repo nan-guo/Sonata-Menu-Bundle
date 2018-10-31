@@ -16,7 +16,7 @@ class MenuManager
 {
     /**
      *
-     * @var EntityManager 
+     * @var EntityManager
      */
     protected $em;
 
@@ -51,6 +51,19 @@ class MenuManager
     public function load($id)
     {
         $menu = $this->menuRepository->findById($id);
+
+        return $menu;
+    }
+
+    /**
+     * Load menu by alias
+     *
+     * @param string $alias
+     * @return Menu
+     */
+    public function loadByAlias($alias)
+    {
+        $menu = $this->menuRepository->findOneByAlias($alias);
 
         return $menu;
     }
@@ -124,7 +137,7 @@ class MenuManager
     public function getMenuItems(Menu $menu, $root=false, $status="all")
     {
         $items = array();
-        
+
         $menuItems = $menu->getMenuItems();
 
         if(count($menuItems) > 0) {
@@ -166,9 +179,9 @@ class MenuManager
                         array_push($items, $menuItem);
                     }
                 }
-            } 
+            }
 
-            
+
         }
 
         return $items;
@@ -194,7 +207,7 @@ class MenuManager
 
             foreach ($items as $pos => $item) {
                 $menuItem = $this->menuItemRepository->findOneBy(array('id' => $item->id, 'menu' => $menu));
-                
+
                 if($menuItem) {
                     $menuItem->setPosition($pos);
 

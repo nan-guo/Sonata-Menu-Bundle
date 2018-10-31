@@ -31,6 +31,14 @@ class MenuAdmin extends AbstractAdmin
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
                     )
                 )
+            ->add('alias', TextType::class,
+                    array(
+                        'label' => 'config.label_alias'
+                    ),
+                    array(
+                        'translation_domain' => 'ProdigiousSonataMenuBundle'
+                    )
+                )
             ->end()
         ->end();
     }
@@ -40,8 +48,11 @@ class MenuAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->add('id', null, array('label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
-        $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
+        $listMapper
+            ->add('id', null, array('label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->addIdentifier('alias', null, array('label' => 'config.label_alias', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+        ;
 
         $listMapper->add('_action', 'actions', array('label' => 'config.label_modify',
             'translation_domain' => 'ProdigiousSonataMenuBundle',
@@ -58,7 +69,10 @@ class MenuAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('name');
+        $datagridMapper
+            ->add('name')
+            ->add('alias')
+        ;
     }
 
     /**
