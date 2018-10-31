@@ -35,6 +35,11 @@ class MenuItemAdmin extends AbstractAdmin
         $this->menuClass = $menuClass;
     }
 
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('toggle', $this->getRouterIdParameter().'/toggle');
+    }
+
     /**
      * {@inheritdoc}
      */

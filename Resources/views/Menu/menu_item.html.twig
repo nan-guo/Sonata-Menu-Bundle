@@ -10,6 +10,15 @@
             </div>
             <div class="col-md-4">
             	<div class="btn-group">
+					<a class="btn btn-xs {% if item.enabled %}btn-success{% else %}btn-warning{% endif %}" href="{{admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('toggle', {'id':item.id})}}">
+						<strong>
+							{% if item.enabled %}
+							{{ 'config.label_enabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
+							{% else %}
+							{{ 'config.label_disabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
+							{% endif %}
+						</strong>
+					</a>
 					<button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    	{% trans from "ProdigiousSonataMenuBundle" %}config.label_action{% endtrans %} <span class="caret"></span>
 				  	</button>
