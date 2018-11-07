@@ -20,6 +20,20 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('prodigious_sonata_menu');
 
+        $rootNode
+            ->children()
+                ->booleanNode('knp_menu_integration')->defaultFalse()->end()
+                ->arrayNode('entities')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('menu')->isRequired()->end()
+                            ->scalarNode('menu_item')->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

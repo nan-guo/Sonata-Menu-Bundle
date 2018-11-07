@@ -3,20 +3,27 @@
 namespace Prodigious\Sonata\MenuBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 use Prodigious\Sonata\MenuBundle\Repository\MenuitemRepository;
-use Prodigious\Sonata\MenuBundle\Entity\Menu;
-use Prodigious\Sonata\MenuBundle\Entity\MenuInterface;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
 
 /**
  * Menu manager
  */
 class MenuManager
 {
+    const STATUS_ENABLED = true;
+    const STATUS_DISABLED = false;
+    const STATUS_ALL = null;
+
+    const ITEM_ROOT = true;
+    const ITEM_CHILD = false;
+    const ITEM_ALL = null;
+
     /**
      *
-     * @var EntityManager 
+     * @var EntityManager
      */
     protected $em;
 
@@ -38,8 +45,8 @@ class MenuManager
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->menuRepository = $em->getRepository('ProdigiousSonataMenuBundle:Menu');
-        $this->menuItemRepository = $em->getRepository('ProdigiousSonataMenuBundle:MenuItem');
+        $this->menuRepository = $em->getRepository(MenuInterface::class);
+        $this->menuItemRepository = $em->getRepository(MenuItemInterface::class);
     }
 
     /**
@@ -50,7 +57,20 @@ class MenuManager
      */
     public function load($id)
     {
-        $menu = $this->menuRepository->findById($id);
+        $menu = $this->menuRepository->find($id);
+
+        return $menu;
+    }
+
+    /**
+     * Load menu by alias
+     *
+     * @param string $alias
+     * @return Menu
+     */
+    public function loadByAlias($alias)
+    {
+        $menu = $this->menuRepository->findOneByAlias($alias);
 
         return $menu;
     }
@@ -70,7 +90,7 @@ class MenuManager
      *
      * @param Menu $menu
      */
-    public function save(Menu $menu)
+    public function save(MenuInterface $menu)
     {
         $this->menuRepository->save($menu);
     }
@@ -89,9 +109,9 @@ class MenuManager
      * @param Menu $menu
      * @return MenuItems[]
      */
-    public function getRootItems(Menu $menu, $status)
+    public function getRootItems(MenuInterface $menu, $status)
     {
-        return $this->getMenuItems($menu, true, $status);
+        return $this->getMenuItems($menu, static::ITEM_ROOT, $status);
     }
 
     /**
@@ -100,9 +120,9 @@ class MenuManager
      * @param Menu $menu
      * @return MenuItems[]
      */
-    public function getEnabledItems(Menu $menu)
+    public function getEnabledItems(MenuInterface $menu)
     {
-        return $this->getMenuItems($menu, false, true);
+        return $this->getMenuItems($menu, static::ITEM_ALL, static::STATUS_ENABLED);
     }
 
     /**
@@ -111,9 +131,9 @@ class MenuManager
      * @param Menu $menu
      * @return MenuItems[]
      */
-    public function getDisabledItems(Menu $menu)
+    public function getDisabledItems(MenuInterface $menu)
     {
-        return $this->getMenuItems($menu, false, false);
+        return $this->getMenuItems($menu, static::ITEM_ALL, static::STATUS_DISABLED);
     }
 
     /**
@@ -121,57 +141,27 @@ class MenuManager
      *
      * @return MenuItem[]
      */
-    public function getMenuItems(Menu $menu, $root=false, $status="all")
+    public function getMenuItems(MenuInterface $menu, $root = self::ALL_ELEMENTS, $status = self::STATUS_ALL)
     {
-        $items = array();
-        
-        $menuItems = $menu->getMenuItems();
+        $menuItems = $menu->getMenuItems()->toArray();
 
-        if(count($menuItems) > 0) {
-            if($status == true) {
-                // Get active menu items
-                foreach ($menuItems as $menuItem) {
-                    if($menuItem->getEnabled()) {
-                        if($root) {
-                            if(is_null($menuItem->getParent())) {
-                                array_push($items, $menuItem);
-                            }
-                        } else {
-                            array_push($items, $menuItem);
-                        }
-                    }
-                }
-            } elseif($status == false) {
+        return array_filter($menuItems, function(MenuItemInterface $menuItem) use ($root, $status) {
+            // Check root parameter
+            if ($root === static::ITEM_ROOT && null !== $menuItem->getParent()
+             || $root === static::ITEM_CHILD && null === $menuItem->getParent()
+            ) {
+                return;
+            }
 
-                // Get disabled menu items
-                foreach ($menuItems as $menuItem) {
-                    if(!$menuItem->getEnabled()) {
-                        if($root) {
-                            if(is_null($menuItem->getParent())) {
-                                array_push($items, $menuItem);
-                            }
-                        } else {
-                            array_push($items, $menuItem);
-                        }
-                    }
-                }
+            // Check status parameter
+            if ($status === static::STATUS_ENABLED && !$menuItem->getEnabled()
+             || $status === static::STATUS_DISABLED && $menuItem->getEnabled()
+            ) {
+                return;
+            }
 
-            } elseif($status == "all") {
-                foreach ($menuItems as $menuItem) {
-                    if($root) {
-                        if(is_null($menuItem->getParent())) {
-                            array_push($items, $menuItem);
-                        }
-                    } else {
-                        array_push($items, $menuItem);
-                    }
-                }
-            } 
-
-            
-        }
-
-        return $items;
+            return $menuItem;
+        });
     }
 
     /**
@@ -193,12 +183,14 @@ class MenuManager
         if(!empty($items) && $menu) {
 
             foreach ($items as $pos => $item) {
+                /** @var MenuItem $menuItem */
                 $menuItem = $this->menuItemRepository->findOneBy(array('id' => $item->id, 'menu' => $menu));
-                
-                if($menuItem) {
-                    $menuItem->setPosition($pos);
 
-                    $menuItem->setParent($parent);
+                if($menuItem) {
+                    $menuItem
+                        ->setPosition($pos)
+                        ->setParent($parent)
+                    ;
 
                     $this->em->persist($menuItem);
                 }
