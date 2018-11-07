@@ -2,6 +2,10 @@
  
 This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).
 
+# Compatibility
+- For Symfony 2 and Symfony 3, please install version 2.*
+- For Symfony 4 , please install version 3.*
+
 # Prerequisites
 - SonataAdminBundle
 - SonataPageBundle (Optional)
