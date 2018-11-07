@@ -342,6 +342,9 @@ parameters:
 ```
 
 # Changelog
+### 3.0.0
+- Fix Symfony 4 compability
+
 ### 2.0.4
 - Fix Symfony 3 compability bugs
 - Remove custom routing config
