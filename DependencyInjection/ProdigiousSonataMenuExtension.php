@@ -22,34 +22,6 @@ class ProdigiousSonataMenuExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yaml');
-
-        $this->registerEntities($container, $config);
-        $this->knpMenuIntegration($loader, $config);
-    }
-
-    /**
-     * @param Configuration $configuration
-     * @param array         $config
-     * @return $this
-     */
-    protected function registerEntities(ContainerBuilder $container, array $config)
-    {
-        $container->setParameter('sonata_menu.entity.menu', $config['entities']['menu']);
-        $container->setParameter('sonata_menu.entity.menu_item', $config['entities']['menu_item']);
-
-        return $this;
-    }
-
-    /**
-     * @param Loader\YamlFileLoader $loader
-     * @param array                 $config
-     * @throws \Exception
-     */
-    protected function knpMenuIntegration(Loader\YamlFileLoader $loader, array $config)
-    {
-        if ($config['knp_menu_integration']) {
-            $loader->load('knp.yaml');
-        }
+        $loader->load('services.yml');
     }
 }

@@ -5,20 +5,11 @@
 <ol class="items-list dd-list">
 
     {% for item in items if item.enabled %}
-    <li class="menu-item dd-item" data-id="{{ item.id }}">
+    <li class="menu-item dd-item" data-id="{{ item.id }}">                
         <div class="item-handle dd-handle">Drag</div>
         <div class="item-content dd-content">
             <span title="{{ item.name }}">{{ item.name|slice(0, 70) }}{% if item.name|length > 70 %}...{% endif %}</span>
             <div class="btn-group action-dropdown">
-                <a class="btn btn-xs {% if item.enabled %}btn-success{% else %}btn-warning{% endif %}" href="{{admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('toggle', {'id':item.id})}}">
-                    <strong>
-                        {% if item.enabled %}
-                            {{ 'config.label_enabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
-                        {% else %}
-                            {{ 'config.label_disabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
-                        {% endif %}
-                    </strong>
-                </a>
                 <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% trans from "ProdigiousSonataMenuBundle" %}config.label_action{% endtrans %} <span class="caret"></span>
                 </button>
@@ -28,14 +19,14 @@
                 </ul>
             </div>
         </div>
-
+        
         {% if item.hasChild() %}
             {{ self.menu(item.children, admin) }}
         {% endif %}
 
     </li>
     {% endfor %}
-
+    
 </ol>
 
 {% endmacro %}
