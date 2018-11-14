@@ -1,0 +1,16 @@
+parameters:
+    prodigious_sonata_menu.adapter.knp.class: Prodigious\Sonata\MenuBundle\Adapter\KnpMenuAdapter
+    prodigious_sonata_menu.twig.knp.class: Prodigious\Sonata\MenuBundle\Twig\SonataMenuExtension
+
+services:
+    prodigious_sonata_menu.adapter.knp:
+        class: '%prodigious_sonata_menu.adapter.knp.class%'
+        arguments:
+            - '@knp_menu.factory'
+            - '@prodigious_sonata_menu.manager'
+    prodigious_sonata_menu.twig.knp:
+        class: '%prodigious_sonata_menu.twig.knp.class%'
+        arguments:
+            - '@prodigious_sonata_menu.adapter.knp'
+        tags:
+            - { name: twig.extension }

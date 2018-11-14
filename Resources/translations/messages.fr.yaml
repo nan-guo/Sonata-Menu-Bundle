@@ -1,0 +1,17 @@
+# messages.fr.yml
+config.label_dashboard: Tableau de bord
+config.label_menu: Menu
+config.label_name: Nom
+config.label_modify: Modifier
+config.label_menu_items: Menu Items
+config.label_menu_item: Menu Item
+config.label_url: URL
+config.label_class_attribute: Class
+config.label_target: Nouvel onglet
+config.label_enabled: Activé
+config.label_page: Page
+config.label_parent: Parent
+config.label_children: Sous menu
+config.label_menu_link: Link
+config.label_add_menu_item: Ajouter un item
+config.label_select: Sélectionner
