@@ -82,7 +82,7 @@ sonata_admin:
                     - prodigious_sonata_menu.admin.menu
 ```
 
-### Advanced configurations
+# Advanced configurations
 #### Create custom entities
 
 Edit the configuration in folder 'config/packages/'
@@ -209,6 +209,7 @@ Clear cache and update database
 php bin/console cache:clear
 php bin/console doctrine:migration:diff
 php bin/console doctrine:migration:migrate
+php bin/console cache:clear
 ```
 
 Remember to update admin classes by extending the original ones :
