@@ -27,7 +27,7 @@ services:
             - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
             - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]  
-            - [ addChild, ['@prodigious_sonata_menu.admin.menu_item']]
+            - [ addChild, ['@prodigious_sonata_menu.admin.menu_item', 'menu']]
             
     prodigious_sonata_menu.admin.menu_item:
         class: '%sonata_menu.admins.menu_item%'
