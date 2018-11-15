@@ -63,7 +63,7 @@ class MenuController extends Controller
 
         $menus = $menuManager->findAll();
 
-    	return $this->render('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
+    	return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
             'menus' => $menus,
     		'menu' => $object,
             'menuItemsEnabled' => $menuItemsEnabled,
