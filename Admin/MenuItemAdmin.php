@@ -66,59 +66,58 @@ class MenuItemAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->with('config.label_menu_item', array('class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->with('config.label_menu_item',['class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
                 ->add('name', TextType::class,
-                    array(
+                    [
                         'label' => 'config.label_name'
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
                 ->add('parent', ModelType::class,
-                    array(
+                    [
                         'label' => 'config.label_parent',
                         'required' => false,
                         'btn_add' => false,
                         'placeholder' => 'config.label_select',
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
                 ->add('classAttribute', TextType::class,
-                    array(
+                    [
                         'label' => 'config.label_class_attribute',
                         'required' => false,
-                    )
-                    ,
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
                 ->add('enabled', null,
-                    array(
+                    [
                         'label' => 'config.label_enabled',
                         'required' => false,
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
             ->end()
 
-            ->with('config.label_menu_link', array('class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->with('config.label_menu_link', ['class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
                 ->add('menu', ModelType::class,
-                    array(
+                    [
                         'label' => 'config.label_menu',
                         'required' => false,
                         'btn_add' => false,
                         'data' => $menu,
                         'placeholder' => 'config.label_select',
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
             ->end();
 
@@ -134,7 +133,7 @@ class MenuItemAdmin extends AbstractAdmin
 
             $pages = $query->getResult();
 
-            $choices = array();
+            $choices = [];
 
             $subject = $this->getSubject();
             $url = $subject->getUrl();
@@ -151,42 +150,42 @@ class MenuItemAdmin extends AbstractAdmin
                 }
             }
             $formMapper
-                ->with('config.label_menu_link', array('class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+                ->with('config.label_menu_link', ['class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
                     ->add('page', ChoiceType::class,
-                        array(
+                        [
                             'label' => 'config.label_page',
                             'required' => false,
                             'choices' => $choices,
                             'data' => $url,
                             'empty_data' => null,
-                        ),
-                        array(
+                        ],
+                        [
                             'translation_domain' => 'ProdigiousSonataMenuBundle'
-                        )
+                        ]
                     )
                 ->end();
         }
 
 
         $formMapper
-            ->with('config.label_menu_link', array('class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->with('config.label_menu_link', ['class' => 'col-md-6', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
                 ->add('url', TextType::class,
-                    array(
+                    [
                         'label' => 'config.label_custom_url',
                         'required' => false,
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
                 ->add('target', null,
-                    array(
+                    [
                         'label' => 'config.label_target',
                         'required' => false,
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
             ->end();
     }
@@ -196,25 +195,32 @@ class MenuItemAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
+        $listMapper->addIdentifier('name', null, ['label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle']);
 
         if(version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "3.0", "<")){
-            $listMapper->add('menu', null, array(), EntityType::class,
-                array(
+            $listMapper->add('menu', null, [], EntityType::class,
+                [
                     'class'    => $this->menuClass,
                     'property' => 'name',
-                )
+                ]
             );
         }else{
-            $listMapper->add('menu', null, array(), EntityType::class,
-                array(
+            $listMapper->add('menu', null, [], EntityType::class,
+                [
                     'class'    => $this->menuClass,
                     'choice_label' => 'name',
-                )
+                ]
             );
         }
 
-        $listMapper->add('_action', 'actions', array('label' => 'config.label_modify', 'translation_domain' => 'ProdigiousSonataMenuBundle', 'actions' => array('edit' => array(), 'delete' => array())));
+        $listMapper->add('_action', 'actions', [
+            'label' => 'config.label_modify', 
+            'translation_domain' => 'ProdigiousSonataMenuBundle', 
+            'actions' => [
+                'edit' => [], 
+                'delete' => []
+            ]
+        ]);
     }
 
     /**
@@ -223,10 +229,10 @@ class MenuItemAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper->add('name')
-            ->add('menu', null, array(), EntityType::class,
-                array(
+            ->add('menu', null, [], EntityType::class,
+                [
                     'class' => $this->menuClass,
-                )
+                ]
             );
     }
 

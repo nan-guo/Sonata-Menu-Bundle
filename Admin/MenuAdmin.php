@@ -20,23 +20,23 @@ class MenuAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('config.label_menu', array('translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->with('config.label_menu', ['translation_domain' => 'ProdigiousSonataMenuBundle'])
                 ->add('name', TextType::class,
-                    array(
+                    [
                         'label' => 'config.label_name'
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
                 )
                 ->add('alias', TextType::class,
-                        array(
-                            'label' => 'config.label_alias'
-                        ),
-                        array(
-                            'translation_domain' => 'ProdigiousSonataMenuBundle'
-                        )
-                    )
+                    [
+                        'label' => 'config.label_alias'
+                    ],
+                    [
+                        'translation_domain' => 'ProdigiousSonataMenuBundle'
+                    ]
+                )
             ->end()
         ->end();
     }
@@ -47,19 +47,20 @@ class MenuAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id', null, array('label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
-            ->addIdentifier('alias', null, array('label' => 'config.label_alias', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
-            ->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->add('id', null, ['label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
+            ->addIdentifier('alias', null, ['label' => 'config.label_alias', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
+            ->addIdentifier('name', null, ['label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
         ;
 
-        $listMapper->add('_action', 'actions', array('label' => 'config.label_modify',
+        $listMapper->add('_action', 'actions', [
+            'label' => 'config.label_modify',
             'translation_domain' => 'ProdigiousSonataMenuBundle',
-            'actions' => array(
-                'edit' => array(),
-                'delete' => array(),
-                'items' => array('template' => '@ProdigiousSonataMenu/CRUD/list__action_edit_items.html.twig', 'route' => 'items')
-            )
-        ));
+            'actions' => [
+                'edit' => [],
+                'delete' => [],
+                'items' => ['template' => '@ProdigiousSonataMenu/CRUD/list__action_edit_items.html.twig', 'route' => 'items']
+            ]
+        ]);
     }
 
     /**

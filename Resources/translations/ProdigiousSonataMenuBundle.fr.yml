@@ -1,0 +1,30 @@
+# SonataMenuBundle.fr.yml
+config.label_dashboard: Tableau de bord
+config.label_menu: Menu
+config.label_menus: Menus
+config.label_name: Nom
+config.label_add: Ajouter
+config.label_update: Mettre à jour
+config.label_add_item: Ajouter item
+config.label_modify: Modifier
+config.label_delete: Supprimer
+config.label_menu_items: Menu Items
+config.label_menu_item: Menu Item
+config.label_url: URL
+config.label_custom_url: Custom URL
+config.label_class_attribute: Class
+config.label_target: Nouvel onglet
+config.label_enabled: Activé
+config.label_page: Page
+config.label_parent: Parent
+config.label_children: Sous menu
+config.label_menu_link: Link
+config.label_add_menu_item: Ajouter un item
+config.label_select: Sélectionner
+config.label_manager_order: Manager l'ordre
+config.label_disabled: Désactivé
+config.label_action: Action
+config.label_saved: Bien enregistré
+config.label_error: Il y a une erreur
+config.label_id: ID
+config.label_alias: Alias

@@ -10,12 +10,12 @@
         <div class="item-content dd-content">
             <span title="{{ item.name }}">{{ item.name|slice(0, 70) }}{% if item.name|length > 70 %}...{% endif %}</span>
             <div class="btn-group action-dropdown">
-                <a class="btn btn-xs {% if item.enabled %}btn-success{% else %}btn-warning{% endif %}" href="{{admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('toggle', {'id':item.id})}}">
+                <a class="btn btn-xs {% if item.enabled %}btn-warning{% else %}btn-success{% endif %}" href="{{admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('toggle', {'id':item.id})}}">
                     <strong>
                         {% if item.enabled %}
-                            {{ 'config.label_enabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
-                        {% else %}
                             {{ 'config.label_disabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
+                        {% else %}
+                            {{ 'config.config.label_enabled'|trans({}, 'ProdigiousSonataMenuBundle') }}
                         {% endif %}
                     </strong>
                 </a>

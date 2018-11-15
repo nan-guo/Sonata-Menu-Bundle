@@ -4,6 +4,8 @@ namespace Prodigious\Sonata\MenuBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin;
+use Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.
@@ -22,13 +24,18 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('knp_menu_integration')->defaultFalse()->end()
                 ->arrayNode('entities')
                     ->addDefaultsIfNotSet()
-                        ->children()
-                            ->scalarNode('menu')->isRequired()->end()
-                            ->scalarNode('menu_item')->isRequired()->end()
-                        ->end()
+                    ->children()
+                        ->scalarNode('menu')->end()
+                        ->scalarNode('menu_item')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('admins')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('menu')->end()
+                        ->scalarNode('menu_item')->end()
                     ->end()
                 ->end()
             ->end()

@@ -16,6 +16,7 @@ class MenuItemController extends Controller
      */
     public function toggleAction($id)
     {
+        
         /** @var MenuItemInterface $object */
         $object = $this->admin->getSubject();
 

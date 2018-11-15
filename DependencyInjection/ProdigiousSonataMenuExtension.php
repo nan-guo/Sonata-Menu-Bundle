@@ -6,6 +6,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Prodigious\Sonata\MenuBundle\Entity\Menu;
+use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
+use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin;
+use Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -25,7 +29,7 @@ class ProdigiousSonataMenuExtension extends Extension
         $loader->load('services.yaml');
 
         $this->registerEntities($container, $config);
-        $this->knpMenuIntegration($loader, $config);
+        $this->registerAdmins($container, $config);
     }
 
     /**
@@ -35,21 +39,45 @@ class ProdigiousSonataMenuExtension extends Extension
      */
     protected function registerEntities(ContainerBuilder $container, array $config)
     {
-        $container->setParameter('sonata_menu.entity.menu', $config['entities']['menu']);
-        $container->setParameter('sonata_menu.entity.menu_item', $config['entities']['menu_item']);
+        if (isset($config['entities'])) {
+
+            if (isset($config['entities']['menu'])) {
+                $container->setParameter('sonata_menu.entity.menu', $config['entities']['menu']);
+            } else {
+                $container->setParameter('sonata_menu.entity.menu', Menu::class);
+            }
+
+            if (isset($config['entities']['menu_item'])) {
+                $container->setParameter('sonata_menu.entity.menu_item', $config['entities']['menu_item']);
+            } else {
+                $container->setParameter('sonata_menu.entity.menu_item', MenuItem::class);
+            }
+        }
 
         return $this;
     }
 
     /**
-     * @param Loader\YamlFileLoader $loader
-     * @param array                 $config
-     * @throws \Exception
+     * @param Configuration $configuration
+     * @param array         $config
+     * @return $this
      */
-    protected function knpMenuIntegration(Loader\YamlFileLoader $loader, array $config)
+    protected function registerAdmins(ContainerBuilder $container, array $config)
     {
-        if ($config['knp_menu_integration']) {
-            $loader->load('knp.yaml');
+        if (isset($config['admins'])) {
+            if (isset($config['admins']['menu'])) {
+                $container->setParameter('sonata_menu.admins.menu', $config['admins']['menu']);    
+            } else {
+                $container->setParameter('sonata_menu.admins.menu', MenuAdmin::class);
+            }
+
+            if (isset($config['admins']['menu_item'])) {
+                $container->setParameter('sonata_menu.admins.menu_item', $config['admins']['menu_item']);    
+            } else {
+                $container->setParameter('sonata_menu.admins.menu_item', MenuItemAdmin::class);
+            }            
         }
+
+        return $this;
     }
 }

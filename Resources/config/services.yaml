@@ -1,0 +1,38 @@
+services:  
+
+    prodigious_sonata_menu.factory:
+        class: Prodigious\Sonata\MenuBundle\Factory\MenuFactor
+
+    prodigious_sonata_menu.manager:
+        class: Prodigious\Sonata\MenuBundle\Manager\MenuManager
+        arguments: ["@doctrine.orm.entity_manager"]
+        public: true
+
+    prodigious_sonata_menu.repo:
+        class: Prodigious\Sonata\MenuBundle\Repository\MenuRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments:
+            - Prodigious\Sonata\MenuBundle\Model\MenuInterface
+    
+    prodigious_sonata_menu_item.repo:
+        class: Prodigious\Sonata\MenuBundle\Repository\MenuItemRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments:
+            - Prodigious\Sonata\MenuBundle\Model\MenuItemInterface
+    
+    prodigious_sonata_menu.admin.menu:
+        class: '%sonata_menu.admins.menu%'
+        arguments: [~, '%sonata_menu.entity.menu%', ProdigiousSonataMenuBundle:Menu]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
+        calls:
+            - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]  
+            - [ addChild, ['@prodigious_sonata_menu.admin.menu_item']]
+            
+    prodigious_sonata_menu.admin.menu_item:
+        class: '%sonata_menu.admins.menu_item%'
+        arguments: [~, '%sonata_menu.entity.menu_item%', ProdigiousSonataMenuBundle:MenuItem, '%sonata_menu.entity.menu%']
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: ProdigiousSonataMenuBundle }
+        calls:
+            - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]

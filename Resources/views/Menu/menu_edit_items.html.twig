@@ -29,8 +29,7 @@
 					<ul class="dropdown-menu">
 					{% for menu in menus %}
 					<li>
-						{#<a href="{{ path('sonata_menu_item', {'id':menu.id}) }}">{{ menu.name }}</a>#}
-						<a href="{{ admin.generateUrl('list', {'id':menu.id}) }}">{{ menu.name }}</a>
+						<a href="{{ admin.generateUrl('items', {'id':menu.id}) }}">{{ menu.name }}</a>
 					</li>
 					{% endfor %}
 					</ul>
@@ -38,7 +37,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a class="sonata-action-element" href="{{admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('create')}}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {% trans from "ProdigiousSonataMenuBundle" %}config.label_add_item{% endtrans %}</a>
+					<a class="sonata-action-element" href="{{ admin.getChild('prodigious_sonata_menu.admin.menu_item').generateUrl('create') }}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {% trans from "ProdigiousSonataMenuBundle" %}config.label_add_item{% endtrans %}</a>
 				</li>
 			</ul>
 		</div>
