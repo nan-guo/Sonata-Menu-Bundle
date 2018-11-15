@@ -3,8 +3,8 @@
 namespace Prodigious\Sonata\MenuBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Prodigious\Sonata\MenuBundle\Entity\Menu;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 
 /**
  * MenuRepository
@@ -17,16 +17,16 @@ class MenuRepository extends EntityRepository
 	/**
 	 * Remove a menu
 	 *
-	 * @param \Prodigious\Sonata\MenuBundle\Entity\Menu $menu
+	 * @param MenuInterface $menu
 	 */
-	public function remove(Menu $menu)
+	public function remove(MenuInterface $menu)
 	{
 		$em = $this->getEntityManager();
 		$conn = $em->getConnection();
 		$conn->beginTransaction();
 
 		try{
-			
+
 			foreach ($menu->getMenuItems as $menuItem) {
 				$em->remove($menuItem);
 			}
@@ -45,12 +45,12 @@ class MenuRepository extends EntityRepository
 	/**
 	 * Save a menu
 	 *
-	 * @param \Prodigious\Sonata\MenuBundle\Entity\Menu $menu
+	 * @param MenuInterface $menu
 	 */
-	public function save(Menu $menu)
+	public function save(MenuInterface $menu)
 	{
 		$em = $this->getEntityManager();
-		
+
 		$em->persist($menu);
 
 		$em->flush();
@@ -64,35 +64,7 @@ class MenuRepository extends EntityRepository
 	public function removeById($id)
 	{
 		$menu = $this->find($id);
-		
+
 		$this->remove($menu);
 	}
-
-	/**
-	 * Get all menus
-	 *
-     * @return Menu[]
-     */
-    public function findAll()
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('SELECT m FROM ProdigiousSonataMenuBundle:Menu m');
-
-        return $query->getResult();
-    }
-
-    /**
-	 * Get menu by id
-	 *
-     * @return Menu
-     */
-    public function findById($id)
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery('SELECT m FROM ProdigiousSonataMenuBundle:Menu m WHERE m.id = :id');
-        $query->setParameter('id', $id);
-
-        return $query->getOneOrNullResult();
-    }
-
 }

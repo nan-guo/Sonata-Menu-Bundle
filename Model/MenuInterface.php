@@ -1,6 +1,6 @@
 <?php
 
-namespace Prodigious\Sonata\MenuBundle\Entity;
+namespace Prodigious\Sonata\MenuBundle\Model;
 
 
 interface MenuInterface

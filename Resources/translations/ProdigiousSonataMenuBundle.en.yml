@@ -27,3 +27,4 @@ config.label_action: Action
 config.label_saved: Saved
 config.label_error: There is an error
 config.label_id: ID
+config.label_alias: Alias

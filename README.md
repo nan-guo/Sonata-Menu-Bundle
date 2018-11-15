@@ -1,6 +1,11 @@
+
 # Sonata Menu Bundle
  
 This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).
+
+# Compatibility
+- For Symfony 2 and Symfony 3, please install version 2.*
+- For Symfony 4 , please install version 3.*
 
 # Prerequisites
 - SonataAdminBundle
@@ -24,21 +29,36 @@ composer require prodigious/sonata-menu-bundle
 
 # Configuration
 ```
+// Symfony 2
 // app/AppKernel.php
 new Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle(),
 
-// Symfony 2
+php bin/console cache:clear
 php app/console doctrine:schema:update --force
 php app/console assets:install
 
 // Symfony 3
+// app/AppKernel.php
+new Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle(),
+
+php bin/console cache:clear
 php bin/console doctrine:schema:update --force
+php bin/console assets:install
+
+// Symfony 4
+// config/bundles.php
+Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle::class => ['all' => true],
+
+php bin/console cache:clear
+php bin/console doctrine:migration:diff
+php bin/console doctrine:migration:migrate
 php bin/console assets:install
 ```
 
-### config.yml or sonata.yml
+### sonata_admin.yml
 
-Add menu to your sonata admin menu list
+Add menu to your sonata admin menu list.
+You can also let it empty, menu will be added automatically
 
 ```
 sonata_admin:
@@ -53,12 +73,204 @@ sonata_admin:
             #         - sonata.page.admin.site
             #         - sonata.page.admin.page
             
+            // Optional
             sonata.admin.group.menu_builder:
                 label:           config.label_menu
                 label_catalogue: ProdigiousSonataMenuBundle
                 icon:            '<i class="fa fa-magic"></i>'
                 items:
                     - prodigious_sonata_menu.admin.menu
+```
+
+### Advanced configurations
+#### Create custom entities
+
+Edit the configuration in folder 'config/packages/'
+
+* prodigious_sonata_menu.yaml
+
+```
+prodigious_sonata_menu:
+    entities:
+        menu: My\App\Entity\MyMenu
+        menu_item: My\App\Entity\MyMenuItem
+```
+
+Then create the related entity menu and menu item.
+You can add extra fields
+
+* Menu
+
+```
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Prodigious\Sonata\MenuBundle\Model\Menu as BaseMenu;
+
+/**
+ * Class Menu
+ *
+ * @ORM\Entity(repositoryClass="App\Repository\Menu\MenuRepository")
+ */
+class Menu extends BaseMenu
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * Class constructor
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+}
+```
+
+* MenuItem
+
+```
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Prodigious\Sonata\MenuBundle\Model\MenuItem as BaseMenuItem;
+
+/**
+ * Class MenuItem
+ *
+ * @ORM\Entity(repositoryClass="App\Repository\MenuItemRepository")
+ */
+class MenuItem extends BaseMenuItem
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $icon;
+
+    /**
+     * Class constructor
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+}
+```
+Clear cache and update database
+```
+php bin/console cache:clear
+php bin/console doctrine:migration:diff
+php bin/console doctrine:migration:migrate
+```
+
+Remember to update admin classes by extending the original ones :
+
+Edit the configuration in folder 'config/packages/'
+
+* prodigious_sonata_menu.yaml
+
+```
+prodigious_sonata_menu:
+    entities:
+        menu: My\App\Entity\MyMenu
+        menu_item: My\App\Entity\MyMenuItem
+    admins:
+        menu: App\Admin\MyMenuAdmin
+        menu_item: App\Admin\MyMenuItemAdmin
+```
+And create your admin class
+```
+namespace App\Admin;
+
+use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin as BaseAdmin;
+use Sonata\AdminBundle\Form\FormMapper;
+
+class MyMenuAdmin extends BaseAdmin
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        parent::configureFormFields($formMapper);
+    }
+}
+```
+
+```
+namespace App\Admin;
+
+use Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin as BaseAdmin;
+use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+class MyMenuItemAdmin extends BaseAdmin
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        parent::configureFormFields($formMapper);
+        
+        $formMapper
+            ->with('config.label_menu_item')
+                ->add('icon', TextType::class, [
+                        'label' => 'config.label_icon'
+                    ]
+                )
+            ->end()
+        ->end();
+    }
+}
 ```
 
 # Getting Started with Menu Manager
@@ -72,9 +284,9 @@ $menuId = 1; // Example
 
 $menu = $mm->load($menuId);
 
-// $stauts = true (Get enabled menu items)
-// $stauts = false (Get disabled menu items)
-// getMenuItems($menu, $status="all")
+// $status = true (Get enabled menu items)
+// $status = false (Get disabled menu items)
+// getMenuItems($menu, $root = MenuManager::ITEM_CHILD, $status = MenuManager::STATUS_ALL)
 
 $menuItems = $mm->getMenuItems($menu, true);
 
@@ -148,6 +360,9 @@ return  $this->render('menu/menu.html.twig', [
 ```
 
 # Changelog
+### 3.0.0
+- Add Symfony 4 support
+
 ### 2.0.4
 - Fix Symfony 3 compability bugs
 - Remove custom routing config

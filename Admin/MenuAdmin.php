@@ -7,9 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Prodigious\Sonata\MenuBundle\Entity\Menu;
-use Prodigious\Sonata\MenuBundle\Entity\MenuInterface;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MenuAdmin extends AbstractAdmin
@@ -22,14 +20,22 @@ class MenuAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('config.label_menu', array('translation_domain' => 'ProdigiousSonataMenuBundle'))
+            ->with('config.label_menu', ['translation_domain' => 'ProdigiousSonataMenuBundle'])
                 ->add('name', TextType::class,
-                    array(
+                    [
                         'label' => 'config.label_name'
-                    ),
-                    array(
+                    ],
+                    [
                         'translation_domain' => 'ProdigiousSonataMenuBundle'
-                    )
+                    ]
+                )
+                ->add('alias', TextType::class,
+                    [
+                        'label' => 'config.label_alias'
+                    ],
+                    [
+                        'translation_domain' => 'ProdigiousSonataMenuBundle'
+                    ]
                 )
             ->end()
         ->end();
@@ -39,18 +45,22 @@ class MenuAdmin extends AbstractAdmin
      * {@inheritdoc}
      */
     protected function configureListFields(ListMapper $listMapper)
-    {   
-        $listMapper->add('id', null, array('label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
-        $listMapper->addIdentifier('name', null, array('label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'));
+    {
+        $listMapper
+            ->add('id', null, ['label' => 'config.label_id', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
+            ->addIdentifier('alias', null, ['label' => 'config.label_alias', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
+            ->addIdentifier('name', null, ['label' => 'config.label_name', 'translation_domain' => 'ProdigiousSonataMenuBundle'])
+        ;
 
-        $listMapper->add('_action', 'actions', array('label' => 'config.label_modify', 
+        $listMapper->add('_action', 'actions', [
+            'label' => 'config.label_modify',
             'translation_domain' => 'ProdigiousSonataMenuBundle',
-            'actions' => array(
-                'edit' => array(), 
-                'delete' => array(),
-                'items' => array('template' => 'ProdigiousSonataMenuBundle:CRUD:list__action_edit_items.html.twig', 'route' => 'items')
-            )
-        ));
+            'actions' => [
+                'edit' => [],
+                'delete' => [],
+                'items' => ['template' => '@ProdigiousSonataMenu/CRUD/list__action_edit_items.html.twig', 'route' => 'items']
+            ]
+        ]);
     }
 
     /**
@@ -58,7 +68,10 @@ class MenuAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('name');
+        $datagridMapper
+            ->add('name')
+            ->add('alias')
+        ;
     }
 
     /**
@@ -74,7 +87,7 @@ class MenuAdmin extends AbstractAdmin
      */
     public function configure()
     {
-        $this->setTemplate('edit', 'ProdigiousSonataMenuBundle:CRUD:edit.html.twig');
+        $this->setTemplate('edit', '@ProdigiousSonataMenu/CRUD/edit.html.twig');
     }
 
     /**

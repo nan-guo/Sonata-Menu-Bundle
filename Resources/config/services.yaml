@@ -10,21 +10,19 @@ services:
 
     prodigious_sonata_menu.repo:
         class: Prodigious\Sonata\MenuBundle\Repository\MenuRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments:
-            - Prodigious\Sonata\MenuBundle\Entity\Menu
+            - Prodigious\Sonata\MenuBundle\Model\MenuInterface
     
     prodigious_sonata_menu_item.repo:
         class: Prodigious\Sonata\MenuBundle\Repository\MenuItemRepository
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments:
-            - Prodigious\Sonata\MenuBundle\Entity\MenuItem
+            - Prodigious\Sonata\MenuBundle\Model\MenuItemInterface
     
     prodigious_sonata_menu.admin.menu:
-        class: Prodigious\Sonata\MenuBundle\Admin\MenuAdmin
-        arguments: [~, Prodigious\Sonata\MenuBundle\Entity\Menu, ProdigiousSonataMenuBundle:Menu]
+        class: '%sonata_menu.admins.menu%'
+        arguments: [~, '%sonata_menu.entity.menu%', ProdigiousSonataMenuBundle:Menu]
         tags:
             - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
@@ -32,9 +30,9 @@ services:
             - [ addChild, ['@prodigious_sonata_menu.admin.menu_item']]
             
     prodigious_sonata_menu.admin.menu_item:
-        class: Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin
-        arguments: [~, Prodigious\Sonata\MenuBundle\Entity\MenuItem, ProdigiousSonataMenuBundle:MenuItem]
+        class: '%sonata_menu.admins.menu_item%'
+        arguments: [~, '%sonata_menu.entity.menu_item%', ProdigiousSonataMenuBundle:MenuItem, '%sonata_menu.entity.menu%']
         tags:
-            - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: ProdigiousSonataMenuBundle  }
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
             - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]
