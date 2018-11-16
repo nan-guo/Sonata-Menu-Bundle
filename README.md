@@ -37,7 +37,7 @@ php app/console cache:clear
 php app/console doctrine:schema:update --force
 php app/console assets:install
 ```
-  
+
 ```
 // Symfony 3
 // app/AppKernel.php
@@ -96,8 +96,8 @@ Edit the configuration
 ```
 prodigious_sonata_menu:
     entities:
-        menu: AppBundle\Entity\MyMenu
-        menu_item: AppBundle\Entity\MyMenuItem
+        menu: AppBundle\Entity\Menu
+        menu_item: AppBundle\Entity\MenuItem
 ```
 
 Then create the related entity menu and menu item.
@@ -234,8 +234,8 @@ Edit the configuration
 ```
 prodigious_sonata_menu:
     entities:
-        menu: AppBundle\Entity\MyMenu
-        menu_item: AppBundle\Entity\MyMenuItem
+        menu: AppBundle\Entity\Menu
+        menu_item: AppBundle\Entity\MenuItem
     admins:
         menu: AppBundle\Admin\MyMenuAdmin
         menu_item: AppBundle\Admin\MyMenuItemAdmin
