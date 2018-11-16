@@ -36,7 +36,9 @@ new Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle(),
 php app/console cache:clear
 php app/console doctrine:schema:update --force
 php app/console assets:install
-
+```
+  
+```
 // Symfony 3
 // app/AppKernel.php
 new Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle(),
@@ -44,7 +46,9 @@ new Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle(),
 php bin/console cache:clear
 php bin/console doctrine:schema:update --force
 php bin/console assets:install
+```
 
+```
 // Symfony 4
 // config/bundles.php
 Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle::class => ['all' => true],
