@@ -4,8 +4,8 @@
 This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).
 
 # Compatibility
-- For Symfony 2 and Symfony 3, please install version 2.x
-- For Symfony 4 , please install version 3.x
+- For Symfony 2, please install version 2.x
+- For Symfony 3 and Symfony 4 , please install version 3.x
 
 # Prerequisites
 - SonataAdminBundle
@@ -58,12 +58,20 @@ php bin/console assets:install
 ### sonata_admin.yml
 
 Add menu to your sonata admin menu list.
-You can also let it empty, menu will be added automatically
+For symfony 4, you can also let it empty, menu will be added automatically
 
 ```
 sonata_admin:
     dashboard:
-        groups:
+        groups:     
+            // Optional for symfony 4
+            sonata.admin.group.menu_builder:
+                label:           config.label_menu
+                label_catalogue: ProdigiousSonataMenuBundle
+                icon:            '<i class="fa fa-magic"></i>'
+                items:
+                    - prodigious_sonata_menu.admin.menu
+
             // Sonata page menu
             # sonata.admin.group.site_builder:
             #     label:           site
@@ -72,14 +80,6 @@ sonata_admin:
             #     items:
             #         - sonata.page.admin.site
             #         - sonata.page.admin.page
-            
-            // Optional
-            sonata.admin.group.menu_builder:
-                label:           config.label_menu
-                label_catalogue: ProdigiousSonataMenuBundle
-                icon:            '<i class="fa fa-magic"></i>'
-                items:
-                    - prodigious_sonata_menu.admin.menu
 ```
 
 # Advanced configurations ( Symfony 3 / Syfmony 4 )
