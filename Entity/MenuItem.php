@@ -6,8 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Prodigious\Sonata\MenuBundle\Model\MenuItem as BaseMenuItem;
 
 /**
+ * @ORM\Table(name="sonata_menu_item")
  * @ORM\Entity(repositoryClass="Prodigious\Sonata\MenuBundle\Repository\MenuItemRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
  */
 class MenuItem extends BaseMenuItem
 {

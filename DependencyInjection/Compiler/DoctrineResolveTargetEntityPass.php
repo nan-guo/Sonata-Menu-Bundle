@@ -5,6 +5,7 @@ namespace Prodigious\Sonata\MenuBundle\DependencyInjection\Compiler;
 use Doctrine\ORM\Version;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
 use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Prodigious\Sonata\MenuBundle\Entity\Menu;
@@ -38,21 +39,34 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
                 ]
             );
 
-        if ($menuTarget !== Menu::class) {
-            $definition
-                ->addMethodCall('addResolveTargetEntity',[
-                        Menu::class,
-                        $menuTarget,
-                        [],
-                    ]
-                );
-        }
+        if(version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "4.0", ">=")) {
 
-        if ($menuItemTarget !== MenuItem::class) {
-            $definition
-                ->addMethodCall('addResolveTargetEntity',[
-                        MenuItem::class,
-                        $menuItemTarget,
+            if ($menuTarget !== Menu::class) {
+                $definition
+                    ->addMethodCall('addResolveTargetEntity',[
+                            Menu::class,
+                            $menuTarget,
+                            [],
+                        ]
+                    );
+            }
+
+            if ($menuItemTarget !== MenuItem::class) {
+                $definition
+                    ->addMethodCall('addResolveTargetEntity',[
+                            MenuItem::class,
+                            $menuItemTarget,
+                            [],
+                        ]
+                    );
+            }
+
+        } else {
+            $definitionDriver = $container->findDefinition('doctrine.orm.default_metadata_driver');
+
+            $definitionDriver->addMethodCall('addDriver',[
+                        new Reference('doctrine.orm.default_xml_metadata_driver'),
+                        'Prodigious\Sonata\MenuBundle\Entity',
                         [],
                     ]
                 );

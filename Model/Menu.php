@@ -11,6 +11,7 @@ use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
  *
  * @ORM\Table(name="sonata_menu")
  * @ORM\MappedSuperclass
+ * @ORM\InheritanceType("SINGLE_TABLE")
  */
 abstract class Menu implements MenuInterface
 {

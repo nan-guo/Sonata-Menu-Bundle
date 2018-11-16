@@ -33,7 +33,7 @@ composer require prodigious/sonata-menu-bundle
 // app/AppKernel.php
 new Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle(),
 
-php bin/console cache:clear
+php app/console cache:clear
 php app/console doctrine:schema:update --force
 php app/console assets:install
 
@@ -82,18 +82,18 @@ sonata_admin:
                     - prodigious_sonata_menu.admin.menu
 ```
 
-# Advanced configurations
+# Advanced configurations ( Symfony 3 / Syfmony 4 )
 #### Create custom entities
 
-Edit the configuration in folder 'config/packages/'
+Edit the configuration
 
 * prodigious_sonata_menu.yaml
 
 ```
 prodigious_sonata_menu:
     entities:
-        menu: My\App\Entity\MyMenu
-        menu_item: My\App\Entity\MyMenuItem
+        menu: AppBundle\Entity\MyMenu
+        menu_item: AppBundle\Entity\MyMenuItem
 ```
 
 Then create the related entity menu and menu item.
@@ -102,7 +102,7 @@ You can add extra fields
 * Menu
 
 ```
-namespace App\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Prodigious\Sonata\MenuBundle\Model\Menu as BaseMenu;
@@ -110,7 +110,8 @@ use Prodigious\Sonata\MenuBundle\Model\Menu as BaseMenu;
 /**
  * Class Menu
  *
- * @ORM\Entity(repositoryClass="App\Repository\Menu\MenuRepository")
+ * @ORM\Table(name="sonata_menu")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Menu\MenuRepository")
  */
 class Menu extends BaseMenu
 {
@@ -142,7 +143,7 @@ class Menu extends BaseMenu
 * MenuItem
 
 ```
-namespace App\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Prodigious\Sonata\MenuBundle\Model\MenuItem as BaseMenuItem;
@@ -150,7 +151,8 @@ use Prodigious\Sonata\MenuBundle\Model\MenuItem as BaseMenuItem;
 /**
  * Class MenuItem
  *
- * @ORM\Entity(repositoryClass="App\Repository\MenuItemRepository")
+ * @ORM\Table(name="sonata_menu_item")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MenuItemRepository")
  */
 class MenuItem extends BaseMenuItem
 {
@@ -206,30 +208,37 @@ class MenuItem extends BaseMenuItem
 ```
 Clear cache and update database
 ```
+// Symfony 3
+
+php bin/console cache:clear
+php bin/console doctrine:schema:update --force
+
+// Symfony 4
+
 php bin/console cache:clear
 php bin/console doctrine:migration:diff
 php bin/console doctrine:migration:migrate
-php bin/console cache:clear
+
 ```
 
 Remember to update admin classes by extending the original ones :
 
-Edit the configuration in folder 'config/packages/'
+Edit the configuration
 
 * prodigious_sonata_menu.yaml
 
 ```
 prodigious_sonata_menu:
     entities:
-        menu: My\App\Entity\MyMenu
-        menu_item: My\App\Entity\MyMenuItem
+        menu: AppBundle\Entity\MyMenu
+        menu_item: AppBundle\Entity\MyMenuItem
     admins:
-        menu: App\Admin\MyMenuAdmin
-        menu_item: App\Admin\MyMenuItemAdmin
+        menu: AppBundle\Admin\MyMenuAdmin
+        menu_item: AppBundle\Admin\MyMenuItemAdmin
 ```
 And create your admin class
 ```
-namespace App\Admin;
+namespace AppBundle\Admin;
 
 use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin as BaseAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -247,7 +256,7 @@ class MyMenuAdmin extends BaseAdmin
 ```
 
 ```
-namespace App\Admin;
+namespace AppBundle\Admin;
 
 use Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin as BaseAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
