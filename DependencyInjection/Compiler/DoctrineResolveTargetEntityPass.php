@@ -40,8 +40,6 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
                 ]
             );
 
-        
-
         if ($menuTarget !== Menu::class) {
             if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "4.0", ">=")) {
                 $this->removeEntityMappingV4($definition, Menu::class, $menuTarget);
@@ -67,14 +65,14 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
     }
 
     // Ignore orm objects in Entity folder
-    protected function removeEntityMappingV3($definition, $target = 'Prodigious\Sonata\MenuBundle\Entity')
+    protected function removeEntityMappingV3($definition, $target = 'Prodigious\\Sonata\\MenuBundle\\Entity')
     {
         $definition->addMethodCall('addDriver',[
                 new Reference('doctrine.orm.default_xml_metadata_driver'),
                 $target,
                 [],
             ]
-        );
+        );    
     }
 
     // Ignore orm objects in Entity folder
