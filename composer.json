@@ -1,5 +1,5 @@
 {
-    "name": "dill44/sonata-menu-bundle",
+    "name": "prodigious/sonata-menu-bundle",
     "type": "symfony-bundle",
     "description": "This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).",
     "keywords": ["menu management", "sonata admin menu bundle"],
