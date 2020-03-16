@@ -2,7 +2,7 @@
 
 namespace Prodigious\Sonata\MenuBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
 use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
@@ -23,7 +23,7 @@ class MenuManager
 
     /**
      *
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $em;
 
@@ -40,9 +40,9 @@ class MenuManager
     /**
      * Constructor
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->menuRepository = $em->getRepository(MenuInterface::class);
