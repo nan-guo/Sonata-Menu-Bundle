@@ -4,25 +4,25 @@ namespace Prodigious\Sonata\MenuBundle\Controller;
 
 use Prodigious\Sonata\MenuBundle\Manager\MenuManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuController extends Controller
 {
-	/**
-	 * Manager menu items
-	 *
-	 * @param $id
-	 */
+    /**
+     * Manager menu items
+     *
+     * @param $id
+     */
     public function itemsAction($id)
     {
-    	$object = $this->admin->getSubject();
+        $object = $this->admin->getSubject();
         $request = $this->getRequest();
 
-    	if (empty($object)) {
+        if (empty($object)) {
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
@@ -30,11 +30,10 @@ class MenuController extends Controller
         $menuManager = $this->container->get('prodigious_sonata_menu.manager');
 
         if (null !== $request->get('btn_update') && $request->getMethod() == 'POST') {
-
             $menuId = $request->get('menu', null);
             $items = $request->get('items', null);
 
-            if(!empty($items) && !empty(intval($menuId))) {
+            if (!empty($items) && !empty(intval($menuId))) {
                 $items = json_decode($items);
 
                 $update = $menuManager->updateMenuTree($menuId, $items);
@@ -44,7 +43,7 @@ class MenuController extends Controller
                 $request->getSession()->getFlashBag()->add('notice',
                     $translator->trans(
                         $update ? 'config.label_saved' : 'config.label_error',
-                        array(),
+                        [],
                         'ProdigiousSonataMenuBundle'
                     )
                 );
@@ -64,11 +63,11 @@ class MenuController extends Controller
 
         $menus = $menuManager->findAll();
 
-    	return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
-            'menus' => $menus,
-    		'menu' => $object,
-            'menuItemsEnabled' => $menuItemsEnabled,
-            'menuItemsDisabled' => $menuItemsDisabled
-        ));
+        return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', [
+            'menus'             => $menus,
+            'menu'              => $object,
+            'menuItemsEnabled'  => $menuItemsEnabled,
+            'menuItemsDisabled' => $menuItemsDisabled,
+        ]);
     }
 }

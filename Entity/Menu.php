@@ -18,17 +18,16 @@ class Menu extends BaseMenu
      */
     private $id;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
      * Class constructor
-     *
      */
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

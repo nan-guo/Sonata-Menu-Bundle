@@ -2,9 +2,9 @@
 
 namespace Prodigious\Sonata\MenuBundle\Model;
 
-
 interface MenuItemInterface
 {
+    public function __toString();
 
     public function getName();
 
@@ -24,13 +24,11 @@ interface MenuItemInterface
 
     public function getChildren();
 
-	public function hasChild();
+    public function hasChild();
 
-	public function hasParent();
-	
-	public function getActiveChildren();
+    public function hasParent();
+
+    public function getActiveChildren();
 
     public function getMenu();
-
-    public function __toString();
 }

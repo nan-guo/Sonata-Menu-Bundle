@@ -8,6 +8,5 @@ class MenuControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-       
     }
 }

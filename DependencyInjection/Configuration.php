@@ -2,10 +2,10 @@
 
 namespace Prodigious\Sonata\MenuBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin;
 use Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * This is the class that validates and merges configuration from your app/config files.

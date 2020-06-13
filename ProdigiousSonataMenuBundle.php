@@ -2,11 +2,11 @@
 
 namespace Prodigious\Sonata\MenuBundle;
 
-use Prodigious\Sonata\MenuBundle\DependencyInjection\Compiler\DoctrineResolveTargetEntityPass;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
+use Prodigious\Sonata\MenuBundle\DependencyInjection\Compiler\DoctrineResolveTargetEntityPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ProdigiousSonataMenuBundle extends Bundle
 {

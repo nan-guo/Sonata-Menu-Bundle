@@ -2,8 +2,8 @@
 
 namespace Prodigious\Sonata\MenuBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 
 /**
@@ -37,17 +37,22 @@ abstract class Menu implements MenuInterface
 
     /**
      * Constructor
-     *
      */
     public function __construct()
     {
         $this->menuItems = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return isset($this->name) ? $this->name : '';
+    }
+
     /**
      * Set name
      *
      * @param string $name
+     *
      * @return Menu
      */
     public function setName($name)
@@ -60,7 +65,7 @@ abstract class Menu implements MenuInterface
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -71,6 +76,7 @@ abstract class Menu implements MenuInterface
      * Set alias
      *
      * @param string $alias
+     *
      * @return Menu
      */
     public function setAlias($alias)
@@ -83,7 +89,7 @@ abstract class Menu implements MenuInterface
     /**
      * Get alias
      *
-     * @return string 
+     * @return string
      */
     public function getAlias()
     {
@@ -92,8 +98,6 @@ abstract class Menu implements MenuInterface
 
     /**
      * Add menuItem
-     *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem
      *
      * @return Menu
      */
@@ -108,8 +112,6 @@ abstract class Menu implements MenuInterface
 
     /**
      * Remove menuItem
-     *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem
      */
     public function removeMenuItem(\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem)
     {
@@ -118,8 +120,6 @@ abstract class Menu implements MenuInterface
 
     /**
      * Set menuItems
-     *
-     * @param ArrayCollection $menuItems
      *
      * @return Menu
      */
@@ -136,12 +136,7 @@ abstract class Menu implements MenuInterface
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getMenuItems()
-    {   
-        return $this->menuItems;
-    }
-
-    public function __toString()
     {
-        return isset($this->name) ? $this->name : "";
+        return $this->menuItems;
     }
 }

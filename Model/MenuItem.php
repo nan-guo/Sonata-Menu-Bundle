@@ -2,8 +2,8 @@
 
 namespace Prodigious\Sonata\MenuBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
 use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 
@@ -38,7 +38,7 @@ abstract class MenuItem implements MenuItemInterface
     protected $classAttribute;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="position", type="smallint", options={"unsigned"=true}, nullable=true)
      */
@@ -60,7 +60,6 @@ abstract class MenuItem implements MenuItemInterface
 
     /**
      * @var \stdClass
-     *
      */
     protected $page;
 
@@ -88,7 +87,6 @@ abstract class MenuItem implements MenuItemInterface
 
     /**
      * Class constructor
-     *
      */
     public function __construct()
     {
@@ -97,10 +95,16 @@ abstract class MenuItem implements MenuItemInterface
         $this->enabled = true;
     }
 
+    public function __toString()
+    {
+        return isset($this->name) ? $this->name : '';
+    }
+
     /**
      * Set name
      *
      * @param string $name
+     *
      * @return MenuItem
      */
     public function setName($name)
@@ -113,7 +117,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -124,6 +128,7 @@ abstract class MenuItem implements MenuItemInterface
      * Set url
      *
      * @param string $url
+     *
      * @return MenuItem
      */
     public function setUrl($url)
@@ -136,7 +141,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -147,6 +152,7 @@ abstract class MenuItem implements MenuItemInterface
      * Set classAttribute
      *
      * @param string $classAttribute
+     *
      * @return MenuItem
      */
     public function setClassAttribute($classAttribute)
@@ -159,7 +165,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get classAttribute
      *
-     * @return string 
+     * @return string
      */
     public function getClassAttribute()
     {
@@ -170,6 +176,7 @@ abstract class MenuItem implements MenuItemInterface
      * Set position
      *
      * @param int $position
+     *
      * @return MenuItem
      */
     public function setPosition($position)
@@ -182,7 +189,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get position
      *
-     * @return int 
+     * @return int
      */
     public function getPosition()
     {
@@ -192,7 +199,9 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Set target
      *
-     * @param boolean $enabled
+     * @param bool  $enabled
+     * @param mixed $target
+     *
      * @return MenuItem
      */
     public function setTarget($target)
@@ -205,7 +214,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get target
      *
-     * @return boolean 
+     * @return bool
      */
     public function getTarget()
     {
@@ -215,16 +224,17 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param bool $enabled
+     *
      * @return MenuItem
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
 
-        if(!$enabled && $this->hasChild()) {
+        if (!$enabled && $this->hasChild()) {
             foreach ($this->children as $child) {
-                if($child->enabled) {
+                if ($child->enabled) {
                     $child->setEnabled(false);
                     $child->setParent(null);
                 }
@@ -238,7 +248,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return bool
      */
     public function getEnabled()
     {
@@ -247,7 +257,6 @@ abstract class MenuItem implements MenuItemInterface
 
     /**
      * Get page
-     *
      */
     public function getPage()
     {
@@ -288,17 +297,16 @@ abstract class MenuItem implements MenuItemInterface
     public function setParent($parent)
     {
         $this->parent = $parent;
-        
-        if(!is_null($parent))
+
+        if (!is_null($parent)) {
             $parent->addChild($this);
+        }
 
         return $this;
     }
 
     /**
      * Add child
-     *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child
      *
      * @return $this
      */
@@ -311,8 +319,6 @@ abstract class MenuItem implements MenuItemInterface
 
     /**
      * Remove child
-     *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child
      */
     public function removeChild(\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child)
     {
@@ -321,8 +327,6 @@ abstract class MenuItem implements MenuItemInterface
 
     /**
      * Set children
-     *
-     * @param ArrayCollection $children
      *
      * @return MenuItem
      */
@@ -345,8 +349,6 @@ abstract class MenuItem implements MenuItemInterface
 
     /**
      * Set menu
-     *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuInterface $menu
      *
      * @return MenuItem
      */
@@ -385,20 +387,14 @@ abstract class MenuItem implements MenuItemInterface
 
     public function getActiveChildren()
     {
-        $children = array();
+        $children = [];
 
         foreach ($this->children as $child) {
-            if($child->enabled) {
+            if ($child->enabled) {
                 array_push($children, $child);
             }
         }
 
         return $children;
     }
-
-    public function __toString()
-    {
-        return isset($this->name) ? $this->name : "";
-    }
-
 }

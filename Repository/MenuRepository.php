@@ -14,57 +14,52 @@ use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
  */
 class MenuRepository extends EntityRepository
 {
-	/**
-	 * Remove a menu
-	 *
-	 * @param MenuInterface $menu
-	 */
-	public function remove(MenuInterface $menu)
-	{
-		$em = $this->getEntityManager();
-		$conn = $em->getConnection();
-		$conn->beginTransaction();
+    /**
+     * Remove a menu
+     */
+    public function remove(MenuInterface $menu)
+    {
+        $em = $this->getEntityManager();
+        $conn = $em->getConnection();
+        $conn->beginTransaction();
 
-		try{
+        try {
+            foreach ($menu->getMenuItems as $menuItem) {
+                $em->remove($menuItem);
+            }
 
-			foreach ($menu->getMenuItems as $menuItem) {
-				$em->remove($menuItem);
-			}
+            $em->remove($menu);
+            $em->flush();
 
-			$em->remove($menu);
-			$em->flush();
+            $conn->commit();
+        } catch (\Exception $e) {
+            $conn->rollBack();
 
-			$conn->commit();
+            throw $e;
+        }
+    }
 
-		} catch (\Exception $e) {
-			$conn->rollBack();
-			throw $e;
-		}
-	}
+    /**
+     * Save a menu
+     */
+    public function save(MenuInterface $menu)
+    {
+        $em = $this->getEntityManager();
 
-	/**
-	 * Save a menu
-	 *
-	 * @param MenuInterface $menu
-	 */
-	public function save(MenuInterface $menu)
-	{
-		$em = $this->getEntityManager();
+        $em->persist($menu);
 
-		$em->persist($menu);
+        $em->flush();
+    }
 
-		$em->flush();
-	}
+    /**
+     * Save a menu
+     *
+     * @param int $id
+     */
+    public function removeById($id)
+    {
+        $menu = $this->find($id);
 
-	/**
-	 * Save a menu
-	 *
-	 * @param int $id
-	 */
-	public function removeById($id)
-	{
-		$menu = $this->find($id);
-
-		$this->remove($menu);
-	}
+        $this->remove($menu);
+    }
 }
