@@ -1,5 +1,5 @@
 {
-    "name": "prodigious/sonata-menu-bundle",
+    "name": "mmwsmartco/sonata-menu-bundle",
     "type": "symfony-bundle",
     "description": "This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).",
     "keywords": ["menu management", "sonata admin menu bundle"],
@@ -14,12 +14,18 @@
         {
             "name": "Prodigious",
             "homepage": "http://www.prodigious.com/"
-        }
+        },
+        {
+            "name": "Simon Lamellière",
+            "email": "simon@makemewin.net",
+            "homepage": "https://github.com/simonoche/"
+        },
     ],
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.2.0",
         "doctrine/doctrine-bundle": "^1.8 || ^2.0",
         "sonata-project/admin-bundle": "^3.63",
+        "sonata-project/page-bundle": "^3.17",
         "sonata-project/doctrine-orm-admin-bundle": "^3.10",
         "symfony/config": "^4.3",
         "symfony/framework-bundle": "^4.3"
