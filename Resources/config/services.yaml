@@ -26,7 +26,7 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
-            - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]  
+            - [ setTranslationDomain, ['ProdigiousSonataMenuBundle']]  
             - [ addChild, ['@prodigious_sonata_menu.admin.menu_item', 'menu']]
             
     prodigious_sonata_menu.admin.menu_item:
@@ -35,4 +35,4 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
-            - [ setTranslationDomain, [ProdigiousSonataMenuBundle]]
+            - [ setTranslationDomain, ['ProdigiousSonataMenuBundle']]
