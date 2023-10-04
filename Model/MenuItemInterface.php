@@ -5,7 +5,6 @@ namespace Prodigious\Sonata\MenuBundle\Model;
 
 interface MenuItemInterface
 {
-
     public function getName();
 
     public function getUrl();

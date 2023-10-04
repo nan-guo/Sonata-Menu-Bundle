@@ -27,7 +27,7 @@ class MenuRepository extends EntityRepository
 
 		try{
 
-			foreach ($menu->getMenuItems as $menuItem) {
+			foreach ($menu->getMenuItems() as $menuItem) {
 				$em->remove($menuItem);
 			}
 
@@ -57,7 +57,7 @@ class MenuRepository extends EntityRepository
 	}
 
 	/**
-	 * Save a menu
+	 * Remove a menu from its id
 	 *
 	 * @param int $id
 	 */

@@ -31,20 +31,21 @@ class MenuController extends Controller
         $this->adminPool = $adminPool;
     }
 
-    /**
-     * Manager menu items
-     *
-     * @param $id
-     */
+	/**
+	 * Manager menu items
+	 *
+	 * @param $id
+	 */
     public function itemsAction(Request $request, $id)
     {
-        $object = $this->admin->getSubject();
+    	$object = $this->admin->getSubject();
 
 
-        if (empty($object)) {
+    	if (empty($object)) {
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
+        /** @var MenuManager $menuManager */
         $menuManager = $this->menuManager;
 
         if (null !== $request->get('btn_update') && $request->getMethod() == 'POST') {
@@ -56,6 +57,8 @@ class MenuController extends Controller
                 $items = json_decode($items);
 
                 $update = $menuManager->updateMenuTree($menuId, $items);
+                /** @var TranslatorInterface $translator */
+                //$translator = $this->get('translator');
 
                 $request->getSession()->getFlashBag()->add('notice',
                     $this->translator->trans(
@@ -66,10 +69,10 @@ class MenuController extends Controller
                 );
 
                 return new RedirectResponse($this->routeGenerator->generateUrl(
-                    $this->adminPool->getAdminByAdminCode('prodigious_sonata_menu.admin.menu'),
-                    'items',
-                    ['id' => $menuId]
-                )
+                        $this->adminPool->getAdminByAdminCode('prodigious_sonata_menu.admin.menu'),
+                        'items',
+                        ['id' => $menuId]
+                    )
                 );
             }
         }
@@ -79,9 +82,9 @@ class MenuController extends Controller
 
         $menus = $menuManager->findAll();
 
-        return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
+    	return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
             'menus' => $menus,
-            'menu' => $object,
+    		'menu' => $object,
             'menuItemsEnabled' => $menuItemsEnabled,
             'menuItemsDisabled' => $menuItemsDisabled
         ));

@@ -22,13 +22,4 @@ class MenuItem extends BaseMenuItem
     {
         return $this->id;
     }
-
-    /**
-     * Class constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 }

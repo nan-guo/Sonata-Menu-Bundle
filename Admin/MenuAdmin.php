@@ -21,24 +21,24 @@ class MenuAdmin extends AbstractAdmin
     {
         $formMapper
             ->with('config.label_menu', ['translation_domain' => 'ProdigiousSonataMenuBundle'])
-            ->add('name', TextType::class,
-                [
-                    'label' => 'config.label_name'
-                ],
-                [
-                    'translation_domain' => 'ProdigiousSonataMenuBundle'
-                ]
-            )
-            ->add('alias', TextType::class,
-                [
-                    'label' => 'config.label_alias'
-                ],
-                [
-                    'translation_domain' => 'ProdigiousSonataMenuBundle'
-                ]
-            )
+                ->add('name', TextType::class,
+                    [
+                        'label' => 'config.label_name'
+                    ],
+                    [
+                        'translation_domain' => 'ProdigiousSonataMenuBundle'
+                    ]
+                )
+                ->add('alias', TextType::class,
+                    [
+                        'label' => 'config.label_alias'
+                    ],
+                    [
+                        'translation_domain' => 'ProdigiousSonataMenuBundle'
+                    ]
+                )
             ->end()
-            ->end();
+        ->end();
     }
 
     /**

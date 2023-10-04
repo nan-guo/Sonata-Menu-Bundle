@@ -2,10 +2,8 @@
 
 namespace Prodigious\Sonata\MenuBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
-use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * MenuItem
@@ -65,7 +63,7 @@ abstract class MenuItem implements MenuItemInterface
     protected $page;
 
     /**
-     * @var \Prodigious\Sonata\PageBundle\Model\MenuItemInterface
+     * @var MenuItemInterface
      *
      * @ORM\ManyToOne(targetEntity="\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(name="parent", referencedColumnName="id", onDelete="SET NULL", nullable=true)
@@ -73,7 +71,7 @@ abstract class MenuItem implements MenuItemInterface
     protected $parent;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface", mappedBy="parent", cascade={"all"})
      * @ORM\OrderBy({"position" = "ASC"})
@@ -271,7 +269,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get parent
      *
-     * @return \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface
+     * @return MenuItemInterface
      */
     public function getParent()
     {
@@ -281,7 +279,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Set parent
      *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $parent
+     * @param MenuItemInterface $parent
      *
      * @return MenuItem
      */
@@ -298,11 +296,11 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Add child
      *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child
+     * @param MenuItemInterface $child
      *
      * @return $this
      */
-    public function addChild(\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child)
+    public function addChild(MenuItemInterface $child)
     {
         $this->children[] = $child;
 
@@ -312,9 +310,9 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Remove child
      *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child
+     * @param MenuItemInterface $child
      */
-    public function removeChild(\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $child)
+    public function removeChild(MenuItemInterface $child)
     {
         $this->children->removeElement($child);
     }
@@ -336,7 +334,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get children
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getChildren()
     {
@@ -346,11 +344,11 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Set menu
      *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuInterface $menu
+     * @param MenuInterface $menu
      *
      * @return MenuItem
      */
-    public function setMenu(\Prodigious\Sonata\MenuBundle\Model\MenuInterface $menu)
+    public function setMenu(MenuInterface $menu)
     {
         $this->menu = $menu;
 
@@ -360,7 +358,7 @@ abstract class MenuItem implements MenuItemInterface
     /**
      * Get menu
      *
-     * @return \Prodigious\Sonata\MenuBundle\Model\MenuInterface
+     * @return MenuInterface
      */
     public function getMenu()
     {
@@ -398,7 +396,6 @@ abstract class MenuItem implements MenuItemInterface
 
     public function __toString()
     {
-        return isset($this->name) ? $this->name : "";
+        return $this->name ?? "";
     }
-
 }

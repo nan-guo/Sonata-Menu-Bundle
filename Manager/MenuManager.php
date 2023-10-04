@@ -3,12 +3,12 @@
 namespace Prodigious\Sonata\MenuBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Prodigious\Sonata\MenuBundle\Entity\Menu;
 use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItem;
 use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
-use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 use Prodigious\Sonata\MenuBundle\Repository\MenuitemRepository;
-
-
+use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 
 /**
  * Menu manager
@@ -150,14 +150,14 @@ class MenuManager
         return array_filter($menuItems, function(MenuItemInterface $menuItem) use ($root, $status) {
             // Check root parameter
             if ($root === static::ITEM_ROOT && null !== $menuItem->getParent()
-                || $root === static::ITEM_CHILD && null === $menuItem->getParent()
+             || $root === static::ITEM_CHILD && null === $menuItem->getParent()
             ) {
                 return;
             }
 
             // Check status parameter
             if ($status === static::STATUS_ENABLED && !$menuItem->getEnabled()
-                || $status === static::STATUS_DISABLED && $menuItem->getEnabled()
+             || $status === static::STATUS_DISABLED && $menuItem->getEnabled()
             ) {
                 return;
             }

@@ -3,15 +3,14 @@
 namespace Prodigious\Sonata\MenuBundle\DependencyInjection\Compiler;
 
 use Doctrine\ORM\Version;
+use Prodigious\Sonata\MenuBundle\Entity\Menu;
+use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
-use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
-use Prodigious\Sonata\MenuBundle\Entity\Menu;
-use Prodigious\Sonata\MenuBundle\Entity\MenuItem;
-use Prodigious\Sonata\MenuBundle\Admin\MenuAdmin;
-use Prodigious\Sonata\MenuBundle\Admin\MenuItemAdmin;
+use Symfony\Component\HttpKernel\Kernel;
 
 class DoctrineResolveTargetEntityPass implements CompilerPassInterface
 {
@@ -41,7 +40,7 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
             );
 
         if ($menuTarget !== Menu::class) {
-            if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "4.0", ">=")) {
+            if (version_compare(Kernel::VERSION, "4.0", ">=")) {
                 $this->removeEntityMappingV4($definition, Menu::class, $menuTarget);
             } else {
                 $this->removeEntityMappingV3($definitionDriver);
@@ -50,7 +49,7 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
         }
 
         if ($menuItemTarget !== MenuItem::class) {
-            if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, "4.0", ">=")) {
+            if (version_compare(Kernel::VERSION, "4.0", ">=")) {
                 $this->removeEntityMappingV4($definition, MenuItem::class, $menuItemTarget);
             } else {
                 $this->removeEntityMappingV3($definitionDriver);

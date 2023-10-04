@@ -2,7 +2,7 @@
 
 namespace Prodigious\Sonata\MenuBundle\Controller;
 
-use Prodigious\Sonata\MenuBundle\Manager\Model\MenuItemInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Prodigious\Sonata\MenuBundle\Manager\MenuManager;
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MenuItemController extends Controller
 {
+
     private $menuManager;
     private $translator;
     private $routeGenerator;
@@ -38,7 +39,7 @@ class MenuItemController extends Controller
      */
     public function toggleAction($id)
     {
-
+        
         /** @var MenuItemInterface $object */
         $object = $this->admin->getSubject();
 
@@ -54,9 +55,9 @@ class MenuItemController extends Controller
 
         return new RedirectResponse($this->routeGenerator->generateUrl(
             $this->adminPool->getAdminByAdminCode('prodigious_sonata_menu.admin.menu'),
-            'items',
-            ['id' => $object->getMenu()->getId()]
-        )
+                'items',
+                ['id' => $object->getMenu()->getId()]
+            )
         );
     }
 
