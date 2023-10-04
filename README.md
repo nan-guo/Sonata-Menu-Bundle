@@ -6,7 +6,8 @@ This bundle provides menu management by sonata admin bundle (compatible with son
 # Compatibility
 - For Symfony 2, please install version 2.x
 - For Symfony 3 and Symfony 4 , please install version 3.x
-
+- For Symfony 6 please install version 4.x
+- 
 # Prerequisites
 - SonataAdminBundle
 - SonataPageBundle (Optional)
@@ -50,6 +51,17 @@ php bin/console assets:install
 
 ```
 // Symfony 4
+// config/bundles.php
+Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle::class => ['all' => true],
+
+php bin/console cache:clear
+php bin/console doctrine:migration:diff
+php bin/console doctrine:migration:migrate
+php bin/console assets:install
+```
+
+```
+// Symfony 6
 // config/bundles.php
 Prodigious\Sonata\MenuBundle\ProdigiousSonataMenuBundle::class => ['all' => true],
 

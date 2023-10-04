@@ -8,6 +8,8 @@ use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
 use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 use Prodigious\Sonata\MenuBundle\Repository\MenuitemRepository;
 
+
+
 /**
  * Menu manager
  */
@@ -53,7 +55,7 @@ class MenuManager
      * Load menu by id
      *
      * @param int $id
-     * @return Menu
+     * @return MenuInterface
      */
     public function load($id)
     {
@@ -66,7 +68,7 @@ class MenuManager
      * Load menu by alias
      *
      * @param string $alias
-     * @return Menu
+     * @return MenuInterface
      */
     public function loadByAlias($alias)
     {
@@ -96,7 +98,7 @@ class MenuManager
     }
 
     /**
-     * @return Menu[]
+     * @return MenuInterface[]
      */
     public function findAll()
     {
@@ -107,7 +109,7 @@ class MenuManager
      * Get first level menu items
      *
      * @param Menu $menu
-     * @return MenuItems[]
+     * @return MenuItemInterface[]
      */
     public function getRootItems(MenuInterface $menu, $status)
     {
@@ -118,7 +120,7 @@ class MenuManager
      * Get enabled menu items
      *
      * @param Menu $menu
-     * @return MenuItems[]
+     * @return MenuItemInterface[]
      */
     public function getEnabledItems(MenuInterface $menu)
     {
@@ -129,7 +131,7 @@ class MenuManager
      * Get disabled menu items
      *
      * @param Menu $menu
-     * @return MenuItems[]
+     * @return MenuItemInterface[]
      */
     public function getDisabledItems(MenuInterface $menu)
     {
@@ -141,21 +143,21 @@ class MenuManager
      *
      * @return MenuItem[]
      */
-    public function getMenuItems(MenuInterface $menu, $root = self::ALL_ELEMENTS, $status = self::STATUS_ALL)
+    public function getMenuItems(MenuInterface $menu, $root = self::ITEM_ALL, $status = self::STATUS_ALL)
     {
         $menuItems = $menu->getMenuItems()->toArray();
 
         return array_filter($menuItems, function(MenuItemInterface $menuItem) use ($root, $status) {
             // Check root parameter
             if ($root === static::ITEM_ROOT && null !== $menuItem->getParent()
-             || $root === static::ITEM_CHILD && null === $menuItem->getParent()
+                || $root === static::ITEM_CHILD && null === $menuItem->getParent()
             ) {
                 return;
             }
 
             // Check status parameter
             if ($status === static::STATUS_ENABLED && !$menuItem->getEnabled()
-             || $status === static::STATUS_DISABLED && $menuItem->getEnabled()
+                || $status === static::STATUS_DISABLED && $menuItem->getEnabled()
             ) {
                 return;
             }

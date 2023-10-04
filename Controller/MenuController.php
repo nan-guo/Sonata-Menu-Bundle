@@ -7,27 +7,45 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sonata\AdminBundle\Route\DefaultRouteGenerator;
+use Sonata\AdminBundle\Admin\Pool;
 
 class MenuController extends Controller
 {
-	/**
-	 * Manager menu items
-	 *
-	 * @param $id
-	 */
-    public function itemsAction($id)
-    {
-    	$object = $this->admin->getSubject();
-        $request = $this->getRequest();
 
-    	if (empty($object)) {
+    private $menuManager;
+    private $translator;
+    private $routeGenerator;
+    private $adminPool;
+
+    public function __construct(MenuManager $menuManager,
+                                TranslatorInterface $translator,
+                                DefaultRouteGenerator $routeGenerator,
+                                Pool $adminPool)
+    {
+        $this->menuManager = $menuManager;
+        $this->translator = $translator;
+        $this->routeGenerator = $routeGenerator;
+        $this->adminPool = $adminPool;
+    }
+
+    /**
+     * Manager menu items
+     *
+     * @param $id
+     */
+    public function itemsAction(Request $request, $id)
+    {
+        $object = $this->admin->getSubject();
+
+
+        if (empty($object)) {
             throw new NotFoundHttpException(sprintf('unable to find the object with id : %s', $id));
         }
 
-        /** @var MenuManager $menuManager */
-        $menuManager = $this->container->get('prodigious_sonata_menu.manager');
+        $menuManager = $this->menuManager;
 
         if (null !== $request->get('btn_update') && $request->getMethod() == 'POST') {
 
@@ -38,23 +56,20 @@ class MenuController extends Controller
                 $items = json_decode($items);
 
                 $update = $menuManager->updateMenuTree($menuId, $items);
-                /** @var TranslatorInterface $translator */
-                $translator = $this->get('translator');
 
                 $request->getSession()->getFlashBag()->add('notice',
-                    $translator->trans(
+                    $this->translator->trans(
                         $update ? 'config.label_saved' : 'config.label_error',
                         array(),
                         'ProdigiousSonataMenuBundle'
                     )
                 );
 
-                return new RedirectResponse($this->get('sonata.admin.route.default_generator')
-                    ->generateUrl(
-                        $this->get('prodigious_sonata_menu.admin.menu'),
-                        'items',
-                        ['id' => $menuId]
-                    )
+                return new RedirectResponse($this->routeGenerator->generateUrl(
+                    $this->adminPool->getAdminByAdminCode('prodigious_sonata_menu.admin.menu'),
+                    'items',
+                    ['id' => $menuId]
+                )
                 );
             }
         }
@@ -64,9 +79,9 @@ class MenuController extends Controller
 
         $menus = $menuManager->findAll();
 
-    	return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
+        return $this->renderWithExtraParams('@ProdigiousSonataMenu/Menu/menu_edit_items.html.twig', array(
             'menus' => $menus,
-    		'menu' => $object,
+            'menu' => $object,
             'menuItemsEnabled' => $menuItemsEnabled,
             'menuItemsDisabled' => $menuItemsDisabled
         ));
