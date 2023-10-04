@@ -4,7 +4,8 @@
 
 <ol class="items-list dd-list">
 
-    {% for item in items if item.enabled %}
+    {% for item in items  %}
+        {% if item.enabled %}
     <li class="menu-item dd-item" data-id="{{ item.id }}">
         <div class="item-handle dd-handle">Drag</div>
         <div class="item-content dd-content">
@@ -34,6 +35,7 @@
         {% endif %}
 
     </li>
+        {% endif %}
     {% endfor %}
 
 </ol>

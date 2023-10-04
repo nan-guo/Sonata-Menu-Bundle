@@ -1,4 +1,8 @@
-services:  
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
 
     prodigious_sonata_menu.factory:
         class: Prodigious\Sonata\MenuBundle\Factory\MenuFactor
@@ -13,26 +17,49 @@ services:
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments:
             - Prodigious\Sonata\MenuBundle\Model\MenuInterface
-    
+
     prodigious_sonata_menu_item.repo:
         class: Prodigious\Sonata\MenuBundle\Repository\MenuItemRepository
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments:
             - Prodigious\Sonata\MenuBundle\Model\MenuItemInterface
-    
+
     prodigious_sonata_menu.admin.menu:
         class: '%sonata_menu.admins.menu%'
-        arguments: [~, '%sonata_menu.entity.menu%', ProdigiousSonataMenuBundle:Menu]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
+            - {  model_class: '%sonata_menu.entity.menu%', controller: Prodigious\Sonata\MenuBundle\Controller\MenuController,  name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
-            - [ setTranslationDomain, ['ProdigiousSonataMenuBundle']]  
+            - [ setTranslationDomain, ['ProdigiousSonataMenuBundle']]
             - [ addChild, ['@prodigious_sonata_menu.admin.menu_item', 'menu']]
-            
+
     prodigious_sonata_menu.admin.menu_item:
+        public: true
         class: '%sonata_menu.admins.menu_item%'
-        arguments: [~, '%sonata_menu.entity.menu_item%', ProdigiousSonataMenuBundle:MenuItem, '%sonata_menu.entity.menu%']
+        arguments: [~,  '%sonata_menu.entity.menu_item%', Prodigious\Sonata\MenuBundle\Controller\MenuItemController, '%sonata_menu.entity.menu%']
         tags:
             - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: ProdigiousSonataMenuBundle }
         calls:
+            - [ setContainer, ['@service_container']]
+            - [ setSlugify, ['@sonata.page.slugify.cocur']]
             - [ setTranslationDomain, ['ProdigiousSonataMenuBundle']]
+
+
+    Sonata\AdminBundle\Route\DefaultRouteGenerator: '@sonata.admin.route.default_generator'
+
+    Prodigious\Sonata\MenuBundle\Controller\MenuController:
+        arguments:
+            $menuManager: '@prodigious_sonata_menu.manager'
+            $translator: '@Symfony\Contracts\Translation\TranslatorInterface'
+            $routeGenerator: '@Sonata\AdminBundle\Route\DefaultRouteGenerator'
+            $adminPool: '@Sonata\AdminBundle\Admin\Pool'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    Prodigious\Sonata\MenuBundle\Controller\MenuItemController:
+        arguments:
+            $menuManager: '@prodigious_sonata_menu.manager'
+            $translator: '@Symfony\Contracts\Translation\TranslatorInterface'
+            $routeGenerator: '@Sonata\AdminBundle\Route\DefaultRouteGenerator'
+            $adminPool: '@Sonata\AdminBundle\Admin\Pool'
+        tags:
+            - { name: 'controller.service_arguments' }

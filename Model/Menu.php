@@ -2,9 +2,8 @@
 
 namespace Prodigious\Sonata\MenuBundle\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Menu
@@ -93,11 +92,11 @@ abstract class Menu implements MenuInterface
     /**
      * Add menuItem
      *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem
+     * @param MenuItemInterface $menuItem
      *
      * @return Menu
      */
-    public function addMenuItem(\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem)
+    public function addMenuItem(MenuItemInterface $menuItem)
     {
         $this->menuItems[] = $menuItem;
 
@@ -109,9 +108,9 @@ abstract class Menu implements MenuInterface
     /**
      * Remove menuItem
      *
-     * @param \Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem
+     * @param MenuItemInterface $menuItem
      */
-    public function removeMenuItem(\Prodigious\Sonata\MenuBundle\Model\MenuItemInterface $menuItem)
+    public function removeMenuItem(MenuItemInterface $menuItem)
     {
         $this->menuItems->removeElement($menuItem);
     }
@@ -142,6 +141,6 @@ abstract class Menu implements MenuInterface
 
     public function __toString()
     {
-        return isset($this->name) ? $this->name : "";
+        return $this->name ?? "";
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Prodigious\Sonata\MenuBundle\Factory;
 
+use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+
 /**
  * Interface implemented by the factory to create menu
  */

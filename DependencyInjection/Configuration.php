@@ -19,8 +19,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('prodigious_sonata_menu');
+        $treeBuilder = new TreeBuilder('prodigious_sonata_menu');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()

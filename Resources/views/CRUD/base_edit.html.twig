@@ -13,7 +13,7 @@ file that was distributed with this source code.
 
 {% block title %}
     {% if admin.id(object) is not null %}
-        {{ "title_edit"|trans({'%name%': admin.toString(object)|sonata_truncate(15) }, 'SonataAdminBundle') }}
+        {{ "title_edit"|trans({'%name%': admin.toString(object)|slice(0, 15) }, 'SonataAdminBundle') }}
     {% else %}
         {{ "title_create"|trans({}, 'SonataAdminBundle') }}
     {% endif %}
@@ -27,7 +27,7 @@ file that was distributed with this source code.
     {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
 {%- endblock -%}
 
-{% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': sonata_admin.adminPool.getTemplate('tab_menu_template')}, 'twig') }}{% endblock %}
+{% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': get_global_template('tab_menu_template')}, 'twig') }}{% endblock %}
 
 {% use '@SonataAdmin/CRUD/base_edit_form.html.twig' with form as parentForm %}
 

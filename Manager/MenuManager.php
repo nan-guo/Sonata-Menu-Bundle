@@ -3,10 +3,12 @@
 namespace Prodigious\Sonata\MenuBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Prodigious\Sonata\MenuBundle\Entity\Menu;
 use Prodigious\Sonata\MenuBundle\Model\MenuInterface;
+use Prodigious\Sonata\MenuBundle\Model\MenuItem;
 use Prodigious\Sonata\MenuBundle\Model\MenuItemInterface;
-use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 use Prodigious\Sonata\MenuBundle\Repository\MenuitemRepository;
+use Prodigious\Sonata\MenuBundle\Repository\MenuRepository;
 
 /**
  * Menu manager
@@ -53,7 +55,7 @@ class MenuManager
      * Load menu by id
      *
      * @param int $id
-     * @return Menu
+     * @return MenuInterface
      */
     public function load($id)
     {
@@ -66,7 +68,7 @@ class MenuManager
      * Load menu by alias
      *
      * @param string $alias
-     * @return Menu
+     * @return MenuInterface
      */
     public function loadByAlias($alias)
     {
@@ -96,7 +98,7 @@ class MenuManager
     }
 
     /**
-     * @return Menu[]
+     * @return MenuInterface[]
      */
     public function findAll()
     {
@@ -107,7 +109,7 @@ class MenuManager
      * Get first level menu items
      *
      * @param Menu $menu
-     * @return MenuItems[]
+     * @return MenuItemInterface[]
      */
     public function getRootItems(MenuInterface $menu, $status)
     {
@@ -118,7 +120,7 @@ class MenuManager
      * Get enabled menu items
      *
      * @param Menu $menu
-     * @return MenuItems[]
+     * @return MenuItemInterface[]
      */
     public function getEnabledItems(MenuInterface $menu)
     {
@@ -129,7 +131,7 @@ class MenuManager
      * Get disabled menu items
      *
      * @param Menu $menu
-     * @return MenuItems[]
+     * @return MenuItemInterface[]
      */
     public function getDisabledItems(MenuInterface $menu)
     {
@@ -141,7 +143,7 @@ class MenuManager
      *
      * @return MenuItem[]
      */
-    public function getMenuItems(MenuInterface $menu, $root = self::ALL_ELEMENTS, $status = self::STATUS_ALL)
+    public function getMenuItems(MenuInterface $menu, $root = self::ITEM_ALL, $status = self::STATUS_ALL)
     {
         $menuItems = $menu->getMenuItems()->toArray();
 
